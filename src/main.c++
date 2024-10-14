@@ -8,19 +8,7 @@ int main(void) {
     Token token;
 
 
-    string line = "++ -";
-
-
-
-    if(tokenise_request(token, line, tokenMap)) {
-        cout << "\n\nTOKEN:" << endl;
-        cout << tokens[token.tokenID] << endl;
-        cout << token.tokenID << endl;
-        cout << token.tokenString << endl;
-        cout << "\n\n" << endl;
-        token.tokenString = "";
-    }
-
+    string line = ".1";
 
 
     if(tokenise_request(token, line, tokenMap)) {
@@ -33,6 +21,23 @@ int main(void) {
     }
 
 
+
+    if(tokenise_request(token, line, tokenMap)) {
+        cout << "\n\nTOKEN:" << endl;
+        cout << tokens[token.tokenID] << endl;
+        cout << token.tokenID << endl;
+        cout << token.tokenString << endl;
+        cout << "\n\n" << endl;
+        token.tokenString = "";
+    }
+    if(tokenise_request(token, line, tokenMap)) {
+        cout << "\n\nTOKEN:" << endl;
+        cout << tokens[token.tokenID] << endl;
+        cout << token.tokenID << endl;
+        cout << token.tokenString << endl;
+        cout << "\n\n" << endl;
+        token.tokenString = "";
+    }
     return 0;
 }
 

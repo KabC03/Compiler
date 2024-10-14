@@ -38,6 +38,9 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     state = STATE_CHAR_IMM;
                 } else if(currentChar == '"') {
                     state = STATE_STRING_IMM;
+                } else if(currentChar == '.') {
+                    buffer.push_back('0');
+                    state = STATE_FLOAT_IMM;
                 } else if(isdigit(currentChar) == true) {
                     state = STATE_INT_IMM;
                 } else if(isalpha(currentChar) == true) {
