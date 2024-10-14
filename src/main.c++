@@ -14,7 +14,7 @@ int main(void) {
 
     cout << "New: \n\n" << endl;
     tokenise_request(token, line, tokenMap);
-
+    tokenise_request(token, line, tokenMap);
     cout << "\n\nTOKEN:" << endl;
     cout << tokens[token.tokenID] << endl;
     cout << token.tokenString << endl;
