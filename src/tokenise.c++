@@ -69,6 +69,10 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     token.tokenString = buffer;
                     cout << "Char immediate found" << endl;
                     return true;
+                    
+                } else if(buffer.length() >= 3) {
+                    cout << "Char immediate too long" << endl;
+                    return false;
                 }
 
                 index++;
