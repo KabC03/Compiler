@@ -8,7 +8,7 @@ int main(void) {
     Token token;
 
 
-    string line = "'h'";
+    string line = "while 0";
 
 
     if(tokenise_request(token, line, tokenMap)) {

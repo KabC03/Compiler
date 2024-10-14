@@ -121,6 +121,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     auto it = tokenMap.find(buffer);
                     if(it != tokenMap.end()) { //Key found - keyword
                         token.tokenID = it->second;
+                        token.tokenString = "KEYWORD";
                         cout << "Keyword" << endl;
                     } else { //Identifier
                         token.tokenString = buffer;
