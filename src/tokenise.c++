@@ -30,9 +30,9 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
     int saveIndex = index;
     while(index <= line.length()) {
         char currentChar = line[index];
-
         switch(state) {
             case STATE_START: {
+                
                 index++;
                 if(currentChar == '\'') {
                     state = STATE_CHAR_IMM;
@@ -46,6 +46,9 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     state = STATE_SYMBOL;
                 } else if(isspace(currentChar) == true) {
                     continue;
+                } else if(currentChar == '\0') {
+                    cout << "NULL CHAR" << endl;
+                    return false;
                 } else {
                     //Unknown symbol
                     cout << "Unrecognised symbol" << endl;
@@ -124,13 +127,13 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                 buffer.push_back(currentChar);
                 break;
             } case STATE_SYMBOL: {
-                saveIndex = index;
+
                 if(ispunct(currentChar) == false) {
                     //Complete token
-
                     auto it = tokenMap.find(buffer);
                     if(it != tokenMap.end()) { //Key found - key symbol 
                         last = it->second;
+                        saveIndex = index;
                     } else {
                         //Nothing found
                     }
@@ -138,6 +141,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     if(last != TOK_INVALID) {
                         token.tokenID = last;
                         cout << "Symbol found" << endl;
+
                         index = saveIndex;
                         return true;
                     } else { //No symbol found
@@ -147,6 +151,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                 } else {
                     auto it = tokenMap.find(buffer);
                     if(it != tokenMap.end()) { //Key found - key symbol 
+                        saveIndex = index;
                         last = it->second;
                     } else {
                         //Nothing found
