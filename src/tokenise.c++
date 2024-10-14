@@ -26,6 +26,8 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
     string buffer = "";
     TOKENISER_STATE state = STATE_START;
 
+    TOKEN_ENUM last = TOK_INVALID;
+    int saveIndex = index;
     while(index <= line.length()) {
         char currentChar = line[index];
 
@@ -94,7 +96,6 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                 index++;
                 if(isdigit(currentChar) == false) {
                     //Complete token
-                    index++;
                     token.tokenID = TOK_FLOAT_IMM;
                     token.tokenString = buffer;
                     cout << "Float immediate found" << endl;
@@ -118,7 +119,6 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                         token.tokenID = TOK_IDENTIFIER;
                         cout << "Identifier" << endl;
                     }
-                    index++;
                     cout << "String found" << endl;
                     return true;
                 }
@@ -126,8 +126,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                 break;
             } case STATE_SYMBOL: {
                 index++;
-                static TOKEN_ENUM last = TOK_INVALID;
-                static int saveIndex = index;
+                saveIndex = index;
                 if(ispunct(currentChar) == false) {
                     //Complete token
 

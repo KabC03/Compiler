@@ -8,7 +8,7 @@ int main(void) {
     Token token;
 
 
-    string line = "++--x";
+    string line = "++  -x";
     tokenise_request(token, line, tokenMap);
 
 
