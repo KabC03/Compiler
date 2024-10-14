@@ -8,9 +8,9 @@ int main(void) {
     Token token;
 
 
-    string line = "++";
+    string line = "+++";
     tokenise_request(token, line, tokenMap);
-
+    tokenise_request(token, line, tokenMap);
 
     cout << "\n\nTOKEN:" << endl;
     cout << tokens[token.tokenID] << endl;
