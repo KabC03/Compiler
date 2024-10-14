@@ -56,7 +56,6 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
             
             } case STATE_CHAR_IMM: {
 
-                index++;
                 buffer.push_back(currentChar);
                 if(currentChar == '\'') {
                     //Complete token
@@ -66,9 +65,9 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     return true;
                 }
 
+                index++;
                 break;
             } case STATE_STRING_IMM: {
-                index++;
                 buffer.push_back(currentChar);
                 if(currentChar == '"') {
                     //Complete token
@@ -77,9 +76,9 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     cout << "String immediate found" << endl;
                     return true;
                 }
+                index++;
                 break;
             } case STATE_INT_IMM: {
-                index++;
                 if(currentChar == '.') {
                     state = STATE_FLOAT_IMM;
 
@@ -90,10 +89,10 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     cout << "Integer immediate found" << endl;
                     return true;
                 }
+                index++;
                 buffer.push_back(currentChar);
                 break;
             } case STATE_FLOAT_IMM: {
-                index++;
                 if(isdigit(currentChar) == false) {
                     //Complete token
                     token.tokenID = TOK_FLOAT_IMM;
@@ -101,11 +100,10 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     cout << "Float immediate found" << endl;
                     return true;
                 }
-
+                index++;
                 buffer.push_back(currentChar);
                 break;
             } case STATE_STRING: {
-                index++;
                 if(isdigit(currentChar) == false && isalpha(currentChar) == false) {
                     //Complete token
                     //Hash it to see if its a keyword - it not its a variable or function name
@@ -122,10 +120,10 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     cout << "String found" << endl;
                     return true;
                 }
+                index++;
                 buffer.push_back(currentChar);
                 break;
             } case STATE_SYMBOL: {
-                index++;
                 saveIndex = index;
                 if(ispunct(currentChar) == false) {
                     //Complete token
@@ -155,6 +153,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     }
                 }
 
+                index++;
                 buffer.push_back(currentChar);
                 break;
             }
