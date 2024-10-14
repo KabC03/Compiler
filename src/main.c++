@@ -8,8 +8,11 @@ int main(void) {
     Token token;
 
 
-    string line = "+++";
+    string line = "++--x";
     tokenise_request(token, line, tokenMap);
+
+
+    cout << "New: \n\n" << endl;
     tokenise_request(token, line, tokenMap);
 
     cout << "\n\nTOKEN:" << endl;

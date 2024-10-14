@@ -31,7 +31,6 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
 
         switch(state) {
             case STATE_START: {
-                buffer.push_back(currentChar);
                 index++;
                 if(currentChar == '\'') {
                     state = STATE_CHAR_IMM;
@@ -44,13 +43,13 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                 } else if(ispunct(currentChar) == true) {
                     state = STATE_SYMBOL;
                 } else if(isspace(currentChar) == true) {
-                    index++;
                     continue;
                 } else {
                     //Unknown symbol
                     cout << "Unrecognised symbol" << endl;
                     return false;
                 }
+                buffer.push_back(currentChar);
                 break;
             
             } case STATE_CHAR_IMM: {
@@ -128,6 +127,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
             } case STATE_SYMBOL: {
                 index++;
                 static TOKEN_ENUM last = TOK_INVALID;
+                static int saveIndex = index;
                 if(ispunct(currentChar) == false) {
                     //Complete token
 
@@ -141,6 +141,7 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     if(last != TOK_INVALID) {
                         token.tokenID = last;
                         cout << "Symbol found" << endl;
+                        index = saveIndex;
                         return true;
                     } else { //No symbol found
                         cout << "Invalid symbol" << endl;
