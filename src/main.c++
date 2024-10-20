@@ -1,43 +1,14 @@
 #include "tokenise.h++"
+#include "parse.h++"
 
 int main(void) {
 
-    unordered_map<string, TOKEN_ENUM> tokenMap;
-    tokenise_init(tokenMap);
+    unordered_map<string, TOKEN_ENUM> tokenMap = tokenise_init();
 
-    Token token;
+    string line = "let 0";
 
+    parse(line, tokenMap);
 
-    string line = "while 0";
-
-
-    if(tokenise_request(token, line, tokenMap)) {
-        cout << "\n\nTOKEN:" << endl;
-        cout << tokens[token.tokenID] << endl;
-        cout << token.tokenID << endl;
-        cout << token.tokenString << endl;
-        cout << "\n\n" << endl;
-        token.tokenString = "";
-    }
-
-
-
-    if(tokenise_request(token, line, tokenMap)) {
-        cout << "\n\nTOKEN:" << endl;
-        cout << tokens[token.tokenID] << endl;
-        cout << token.tokenID << endl;
-        cout << token.tokenString << endl;
-        cout << "\n\n" << endl;
-        token.tokenString = "";
-    }
-    if(tokenise_request(token, line, tokenMap)) {
-        cout << "\n\nTOKEN:" << endl;
-        cout << tokens[token.tokenID] << endl;
-        cout << token.tokenID << endl;
-        cout << token.tokenString << endl;
-        cout << "\n\n" << endl;
-        token.tokenString = "";
-    }
     return 0;
 }
 

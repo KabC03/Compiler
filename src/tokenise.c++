@@ -4,13 +4,14 @@
 
 
 //Initialise tokeniser hashmap
-void tokenise_init(unordered_map<string, TOKEN_ENUM> &tokenMap) {
+unordered_map<string, TOKEN_ENUM> tokenise_init(void) {
 
+    unordered_map<string, TOKEN_ENUM> tokenMap;
     for(int i = 0; i < NUM_TOKENS; i++) { //Enum is strongly typed to hold int
         tokenMap[tokens[i]] = (TOKEN_ENUM)i;
     }
 
-    return;
+    return tokenMap;
 }
 
 
@@ -18,13 +19,15 @@ void tokenise_init(unordered_map<string, TOKEN_ENUM> &tokenMap) {
 
 
 //Request a token from line -> token
-bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENUM> &tokenMap) {
+Token tokenise_request(string &line, unordered_map<string, TOKEN_ENUM> &tokenMap) {
 
     static int index = 0; //Index into current line
     //Return the token immediatly upon finding it
 
     string buffer = "";
     TOKENISER_STATE state = STATE_START;
+    Token token;
+    token.tokenID = TOK_INVALID;
 
     TOKEN_ENUM last = TOK_INVALID;
     int saveIndex = index;
@@ -51,11 +54,13 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     continue;
                 } else if(currentChar == '\0') {
                     cout << "NULL CHAR" << endl;
-                    return false;
+                    token.tokenID = TOK_INVALID;
+                    return token;
                 } else {
                     //Unknown symbol
                     cout << "Unrecognised symbol" << endl;
-                    return false;
+                    token.tokenID = TOK_INVALID;
+                    return token;
                 }
                 buffer.push_back(currentChar);
                 break;
@@ -67,12 +72,12 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     //Complete token
                     token.tokenID = TOK_CHAR_IMM;
                     token.tokenString = buffer;
-                    cout << "Char immediate found" << endl;
-                    return true;
+                    //cout << "Char immediate found" << endl;
+                    return token;
                     
                 } else if(buffer.length() >= 3) {
                     cout << "Char immediate too long" << endl;
-                    return false;
+                    return token;
                 }
 
                 index++;
@@ -83,8 +88,8 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     //Complete token
                     token.tokenID = TOK_STRING_IMM;
                     token.tokenString = buffer;
-                    cout << "String immediate found" << endl;
-                    return true;
+                    //cout << "String immediate found" << endl;
+                    return token;
                 }
                 index++;
                 break;
@@ -96,8 +101,8 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     //Complete token
                     token.tokenID = TOK_INT_IMM;
                     token.tokenString = buffer;
-                    cout << "Integer immediate found" << endl;
-                    return true;
+                    //cout << "Integer immediate found" << endl;
+                    return token;
                 }
                 index++;
                 buffer.push_back(currentChar);
@@ -107,8 +112,8 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     //Complete token
                     token.tokenID = TOK_FLOAT_IMM;
                     token.tokenString = buffer;
-                    cout << "Float immediate found" << endl;
-                    return true;
+                    //cout << "Float immediate found" << endl;
+                    return token;
                 }
                 index++;
                 buffer.push_back(currentChar);
@@ -122,14 +127,14 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
                     if(it != tokenMap.end()) { //Key found - keyword
                         token.tokenID = it->second;
                         token.tokenString = "KEYWORD";
-                        cout << "Keyword" << endl;
+                        //cout << "Keyword" << endl;
                     } else { //Identifier
                         token.tokenString = buffer;
                         token.tokenID = TOK_IDENTIFIER;
-                        cout << "Identifier" << endl;
+                        //cout << "Identifier" << endl;
                     }
-                    cout << "String found" << endl;
-                    return true;
+                    //cout << "String found" << endl;
+                    return token;
                 }
                 index++;
                 buffer.push_back(currentChar);
@@ -148,13 +153,15 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
 
                     if(last != TOK_INVALID) {
                         token.tokenID = last;
-                        cout << "Symbol found" << endl;
+                        //cout << "Symbol found" << endl;
 
                         index = saveIndex;
-                        return true;
+                        return token;
                     } else { //No symbol found
                         cout << "Invalid symbol" << endl;
-                        return false;
+                        token.tokenID = TOK_INVALID;
+                        //ERROR
+                        return token;
                     }
                 } else {
                     auto it = tokenMap.find(buffer);
@@ -176,7 +183,8 @@ bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENU
         }
     }
     cout << "Nothing found" << endl;
-    return false;
+    token.tokenID = TOK_INVALID;
+    return token;
 }
 
 

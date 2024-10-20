@@ -1,0 +1,35 @@
+
+
+fn foo(int a, int b) -> char@ {
+
+    let char@ result = NULL;
+
+    if(a == 0 || b == 1) {
+        set result = 1;
+
+    } else {
+        set result = 2;
+    }
+
+    return result;
+}
+
+
+fn main(void) -> int {
+
+    let int y = 2;
+    let char @x = foo(y, 0);
+
+    call foo(y, 0);
+
+    set y = 3;
+
+
+    
+    return 0;
+}
+
+
+
+
+

@@ -38,8 +38,8 @@ typedef enum TOKENISER_STATE {
 
 
 
-void tokenise_init(unordered_map<string, TOKEN_ENUM> &tokenSet);
-bool tokenise_request(Token &token,string &line, unordered_map<string, TOKEN_ENUM> &tokenMap);
+unordered_map<string, TOKEN_ENUM> tokenise_init(void);
+Token tokenise_request(string &line, unordered_map<string, TOKEN_ENUM> &tokenMap);
 
 
 
