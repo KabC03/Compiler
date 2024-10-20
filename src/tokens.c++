@@ -5,7 +5,7 @@ const string tokens[] = {
 	"char",   //0 :: TOK_KEYWORD_CHAR
 	"int",    //1 :: TOK_KEYWORD_INT
 	"float",  //2 :: TOK_KEYWORD_FLOAT
-	"@",      //3 :: TOK_SYMBOL_REFERENCE
+	"ptr",    //3 :: TOK_KEYWORD_PTR
 	"let",    //4 :: TOK_KEYWORD_LET
 	"set",    //5 :: TOK_KEYWORD_SET
 	"=",      //6 :: TOK_SYMBOL_ASSIGNMENT
@@ -22,7 +22,7 @@ const string tokens[] = {
 	"-",      //17 :: TOK_SYMBOL_MINUS
 	"*",      //18 :: TOK_SYMBOL_MULTIPLY
 	"/",      //19 :: TOK_SYMBOL_DIVIDE
-	"&",      //20 :: TOK_SYMBOL_DEREFERENCE
+	"@",      //20 :: TOK_SYMBOL_DEREFERENCE
 	"==",     //21 :: TOK_SYMBOL_EQUALS
 	"!=",     //22 :: TOK_SYMBOL_NOT_EQUAL
 	"(",      //23 :: TOK_BRACE_OPEN_PAREN

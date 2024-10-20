@@ -1,8 +1,8 @@
 
 
-fn foo(int a, int b) -> char@ {
+fn foo(int a, int b) -> ptr {
 
-    let char@ result = NULL;
+    let ptr result = NULL;
 
     if(a == 0 || b == 1) {
         set result = 1;
@@ -18,12 +18,12 @@ fn foo(int a, int b) -> char@ {
 fn main(void) -> int {
 
     let int y = 2;
-    let char @x = foo(y, 0);
+    let ptr = foo(y, 0);
 
     call foo(y, 0);
 
     set y = 3;
-
+    set @ptr = 3;
 
     
     return 0;

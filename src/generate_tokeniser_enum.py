@@ -13,13 +13,13 @@ tokens = {
     "char" : "TOK_KEYWORD_CHAR",
     "int" : "TOK_KEYWORD_INT", 
     "float" : "TOK_KEYWORD_FLOAT",
-    "@" : "TOK_SYMBOL_REFERENCE",
+    "ptr" : "TOK_KEYWORD_PTR",
     "let" : "TOK_KEYWORD_LET",
     "set" : "TOK_KEYWORD_SET",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
         #Control flow
     "while" : "TOK_KEYWORD_WHILE", 
-    "for" : "TOK_KEYWORD_FOR", 
+    "for" : "TOK_KEYWORD_FOR",
     "if" : "TOK_KEYWORD_IF", 
     "elif" : "TOK_KEYWORD_ELIF", 
     "else" : "TOK_KEYWORD_ELSE", 
@@ -34,7 +34,7 @@ tokens = {
     "-" : "TOK_SYMBOL_MINUS",
     "*" : "TOK_SYMBOL_MULTIPLY",
     "/" : "TOK_SYMBOL_DIVIDE",
-    "&" : "TOK_SYMBOL_DEREFERENCE",
+    "@" : "TOK_SYMBOL_DEREFERENCE",
     "-" : "TOK_SYMBOL_MINUS",
     "==" : "TOK_SYMBOL_EQUALS",
     "!=" : "TOK_SYMBOL_NOT_EQUAL",
@@ -85,7 +85,7 @@ def main() -> int:
             for key, value in tokens.items():
 
                 whiteSpace = (largestValueLength - len(value)) * " ";
-                hFile.write("\t" + str(value) + ", " + whiteSpace + "//" + str(index) + " ::  " + str(key) + "\n");
+                hFile.write("\t" + str(value) + " = " + str(index) + ", " + whiteSpace + "//" + str(index) + " ::  " + str(key) + "\n");
         
                 whiteSpace = ((largestKeyLength - len(key)) * " ");
                 cFile.write("\t\"" + str(key) + "\", " + whiteSpace + "//" + str(index) + " :: " + str(value) + "\n");

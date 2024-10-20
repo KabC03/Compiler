@@ -10,6 +10,14 @@
 
 using namespace std;
 
+//Datatype sizes (bytes)
+#define SIZE_DATATYPE_INT 4
+#define SIZE_DATATYPE_FLOAT 4
+#define SIZE_DATATYPE_PTR 8
+#define SIZE_DATATYPE_CHAR 1
+
+
+
 typedef struct Label {
     Token type; //Parent type (e.g if/elif/while/etc)
 
@@ -56,7 +64,13 @@ typedef struct StructureExpression {
     stack<Token> rpn;
 
 } StructureExpression;
+typedef struct StructureLet {
+    //let ptr x = 10;
 
+    Variable variable; 
+    StructureExpression expression;
+
+} StructureLet;
 
 
 
