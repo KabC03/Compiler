@@ -12,7 +12,7 @@
 using namespace std;
 
 
-bool parse(string &line, unordered_map<string, TOKEN_ENUM> &tokenMap);
+bool parse(string &line);
 
 
 #endif 

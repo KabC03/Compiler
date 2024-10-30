@@ -11,29 +11,29 @@ typedef enum TOKEN_ENUM : int {
 	TOK_STRING_IMM = -4,
 	TOK_IDENTIFIER = -5,
 	TOK_INVALID = -6,
-	TOK_KEYWORD_CHAR = 0,             //0 ::  char
-	TOK_KEYWORD_INT = 1,              //1 ::  int
-	TOK_KEYWORD_FLOAT = 2,            //2 ::  float
-	TOK_KEYWORD_PTR = 3,              //3 ::  ptr
-	TOK_KEYWORD_LET = 4,              //4 ::  let
-	TOK_KEYWORD_SET = 5,              //5 ::  set
-	TOK_SYMBOL_ASSIGNMENT = 6,        //6 ::  =
-	TOK_KEYWORD_WHILE = 7,            //7 ::  while
-	TOK_KEYWORD_FOR = 8,              //8 ::  for
-	TOK_KEYWORD_IF = 9,               //9 ::  if
-	TOK_KEYWORD_ELIF = 10,             //10 ::  elif
-	TOK_KEYWORD_ELSE = 11,             //11 ::  else
-	TOK_KEYWORD_FN = 12,               //12 ::  fn
-	TOK_KEYWORD_CALL = 13,             //13 ::  call
-	TOK_KEYWORD_RETURN = 14,           //14 ::  return
-	TOK_KEYWORD_RETURN_SPECIFIER = 15, //15 ::  ->
-	TOK_SYMBOL_PLUS = 16,              //16 ::  +
-	TOK_SYMBOL_MINUS = 17,             //17 ::  -
-	TOK_SYMBOL_MULTIPLY = 18,          //18 ::  *
-	TOK_SYMBOL_DIVIDE = 19,            //19 ::  /
-	TOK_SYMBOL_DEREFERENCE = 20,       //20 ::  @
-	TOK_SYMBOL_EQUALS = 21,            //21 ::  ==
-	TOK_SYMBOL_NOT_EQUAL = 22,         //22 ::  !=
-	TOK_BRACE_OPEN_PAREN = 23,         //23 ::  (
-	TOK_BRACE_CLOSE_PAREN = 24,        //24 ::  )
+	TOK_KEYWORD_CHAR = 0,       //0 ::  char
+	TOK_KEYWORD_INT = 1,        //1 ::  int
+	TOK_KEYWORD_FLOAT = 2,      //2 ::  float
+	TOK_KEYWORD_PTR = 3,        //3 ::  ptr
+	TOK_SYMBOL_ASSIGNMENT = 4,  //4 ::  =
+	TOK_KEYWORD_NEW = 5,        //5 ::  let
+	TOK_KEYWORD_SET = 6,        //6 ::  set
+	TOK_KEYWORD_WHILE = 7,      //7 ::  while
+	TOK_KEYWORD_FOR = 8,        //8 ::  for
+	TOK_KEYWORD_IF = 9,         //9 ::  if
+	TOK_KEYWORD_ELIF = 10,       //10 ::  elif
+	TOK_KEYWORD_ELSE = 11,       //11 ::  else
+	TOK_KEYWORD_FN = 12,         //12 ::  fn
+	TOK_KEYWORD_RETURN = 13,     //13 ::  return
+	TOK_SYMBOL_PLUS = 14,        //14 ::  +
+	TOK_SYMBOL_EQUALS = 15,      //15 ::  ==
+	TOK_SYMBOL_DEREFERENCE = 16, //16 ::  @
+	TOK_BRACE_OPEN_PAREN = 17,   //17 ::  (
+	TOK_BRACE_CLOSE_PAREN = 18,  //18 ::  )
+	TOK_BRACE_OPEN_CURLEY = 19,  //19 ::  {
+	TOK_BRACE_CLOSE_CURLEY = 20, //20 ::  }
+	TOK_BRACE_OPEN_SQUARE = 21,  //21 ::  [
+	TOK_BRACE_CLOSE_SQUARE = 22, //22 ::  ]
+	TOK_BRACE_OPEN_ANGLE = 23,   //23 ::  <
+	TOK_BRACE_CLOSE_ANGLE = 24,  //24 ::  >
 } TOKEN_ENUM;

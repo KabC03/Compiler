@@ -1,33 +1,22 @@
 
 
-fn foo(int a, int b) -> ptr {
+fn main() {
 
-    let ptr result = NULL;
+    let int x = [10];
 
-    if(a == 0 || b == 1) {
-        set result = 1;
+    while [x+1] != [x-z+2] {
 
-    } else {
-        set result = 2;
     }
 
-    return result;
-}
+
+    set x = 11;
 
 
-fn main(void) -> int {
-
-    let int y = 2;
-    let ptr = foo(y, 0);
-
-    call foo(y, 0);
-
-    set y = 3;
-    set @ptr = 3;
-
-    
     return 0;
 }
+
+
+
 
 
 

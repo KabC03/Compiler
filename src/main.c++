@@ -3,11 +3,11 @@
 
 int main(void) {
 
-    unordered_map<string, TOKEN_ENUM> tokenMap = tokenise_init();
+    tokenise_init();
 
     string line = "let 0";
 
-    parse(line, tokenMap);
+    parse(line);
 
     return 0;
 }

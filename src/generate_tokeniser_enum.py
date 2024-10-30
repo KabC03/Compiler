@@ -14,34 +14,39 @@ tokens = {
     "int" : "TOK_KEYWORD_INT", 
     "float" : "TOK_KEYWORD_FLOAT",
     "ptr" : "TOK_KEYWORD_PTR",
-    "let" : "TOK_KEYWORD_LET",
-    "set" : "TOK_KEYWORD_SET",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
+    "let" : "TOK_KEYWORD_NEW",
+    "set" : "TOK_KEYWORD_SET",
+
         #Control flow
     "while" : "TOK_KEYWORD_WHILE", 
     "for" : "TOK_KEYWORD_FOR",
     "if" : "TOK_KEYWORD_IF", 
     "elif" : "TOK_KEYWORD_ELIF", 
     "else" : "TOK_KEYWORD_ELSE", 
+
         #Functions
     "fn" : "TOK_KEYWORD_FN",
-    "call" : "TOK_KEYWORD_CALL",
     "return" : "TOK_KEYWORD_RETURN",
-    "->" : "TOK_KEYWORD_RETURN_SPECIFIER",
 
-    # Arithmatic symbols
+    # Symbols
     "+" : "TOK_SYMBOL_PLUS",
-    "-" : "TOK_SYMBOL_MINUS",
-    "*" : "TOK_SYMBOL_MULTIPLY",
-    "/" : "TOK_SYMBOL_DIVIDE",
-    "@" : "TOK_SYMBOL_DEREFERENCE",
-    "-" : "TOK_SYMBOL_MINUS",
     "==" : "TOK_SYMBOL_EQUALS",
-    "!=" : "TOK_SYMBOL_NOT_EQUAL",
 
-    # Braces
+        #Pointers
+    "@" : "TOK_SYMBOL_DEREFERENCE",
+
+        # Braces
     "(" : "TOK_BRACE_OPEN_PAREN",
     ")" : "TOK_BRACE_CLOSE_PAREN",
+    "{" : "TOK_BRACE_OPEN_CURLEY",
+    "}" : "TOK_BRACE_CLOSE_CURLEY",
+
+    "[" : "TOK_BRACE_OPEN_SQUARE",
+    "]" : "TOK_BRACE_CLOSE_SQUARE",
+
+    "<" : "TOK_BRACE_OPEN_ANGLE",
+    ">" : "TOK_BRACE_CLOSE_ANGLE",
 };
 
 

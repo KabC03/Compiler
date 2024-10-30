@@ -6,25 +6,25 @@ const string tokens[] = {
 	"int",    //1 :: TOK_KEYWORD_INT
 	"float",  //2 :: TOK_KEYWORD_FLOAT
 	"ptr",    //3 :: TOK_KEYWORD_PTR
-	"let",    //4 :: TOK_KEYWORD_LET
-	"set",    //5 :: TOK_KEYWORD_SET
-	"=",      //6 :: TOK_SYMBOL_ASSIGNMENT
+	"=",      //4 :: TOK_SYMBOL_ASSIGNMENT
+	"let",    //5 :: TOK_KEYWORD_NEW
+	"set",    //6 :: TOK_KEYWORD_SET
 	"while",  //7 :: TOK_KEYWORD_WHILE
 	"for",    //8 :: TOK_KEYWORD_FOR
 	"if",     //9 :: TOK_KEYWORD_IF
 	"elif",   //10 :: TOK_KEYWORD_ELIF
 	"else",   //11 :: TOK_KEYWORD_ELSE
 	"fn",     //12 :: TOK_KEYWORD_FN
-	"call",   //13 :: TOK_KEYWORD_CALL
-	"return", //14 :: TOK_KEYWORD_RETURN
-	"->",     //15 :: TOK_KEYWORD_RETURN_SPECIFIER
-	"+",      //16 :: TOK_SYMBOL_PLUS
-	"-",      //17 :: TOK_SYMBOL_MINUS
-	"*",      //18 :: TOK_SYMBOL_MULTIPLY
-	"/",      //19 :: TOK_SYMBOL_DIVIDE
-	"@",      //20 :: TOK_SYMBOL_DEREFERENCE
-	"==",     //21 :: TOK_SYMBOL_EQUALS
-	"!=",     //22 :: TOK_SYMBOL_NOT_EQUAL
-	"(",      //23 :: TOK_BRACE_OPEN_PAREN
-	")",      //24 :: TOK_BRACE_CLOSE_PAREN
+	"return", //13 :: TOK_KEYWORD_RETURN
+	"+",      //14 :: TOK_SYMBOL_PLUS
+	"==",     //15 :: TOK_SYMBOL_EQUALS
+	"@",      //16 :: TOK_SYMBOL_DEREFERENCE
+	"(",      //17 :: TOK_BRACE_OPEN_PAREN
+	")",      //18 :: TOK_BRACE_CLOSE_PAREN
+	"{",      //19 :: TOK_BRACE_OPEN_CURLEY
+	"}",      //20 :: TOK_BRACE_CLOSE_CURLEY
+	"[",      //21 :: TOK_BRACE_OPEN_SQUARE
+	"]",      //22 :: TOK_BRACE_CLOSE_SQUARE
+	"<",      //23 :: TOK_BRACE_OPEN_ANGLE
+	">",      //24 :: TOK_BRACE_CLOSE_ANGLE
 };

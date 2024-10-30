@@ -1,17 +1,16 @@
 #include "tokenise.h++"
 
-
+unordered_map<string, TOKEN_ENUM> tokenMap;
 
 
 //Initialise tokeniser hashmap
-unordered_map<string, TOKEN_ENUM> tokenise_init(void) {
+void tokenise_init(void) {
 
-    unordered_map<string, TOKEN_ENUM> tokenMap;
     for(int i = 0; i < NUM_TOKENS; i++) { //Enum is strongly typed to hold int
         tokenMap[tokens[i]] = (TOKEN_ENUM)i;
     }
 
-    return tokenMap;
+    return;
 }
 
 
@@ -19,7 +18,7 @@ unordered_map<string, TOKEN_ENUM> tokenise_init(void) {
 
 
 //Request a token from line -> token
-Token tokenise_request(string &line, unordered_map<string, TOKEN_ENUM> &tokenMap) {
+Token tokenise_request(string &line) {
 
     static int index = 0; //Index into current line
     //Return the token immediatly upon finding it
