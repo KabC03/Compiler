@@ -16,7 +16,7 @@ typedef enum TOKEN_ENUM : int {
 	TOK_KEYWORD_FLOAT = 2,      //2 ::  float
 	TOK_KEYWORD_PTR = 3,        //3 ::  ptr
 	TOK_SYMBOL_ASSIGNMENT = 4,  //4 ::  =
-	TOK_KEYWORD_NEW = 5,        //5 ::  let
+	TOK_KEYWORD_LET = 5,        //5 ::  let
 	TOK_KEYWORD_SET = 6,        //6 ::  set
 	TOK_KEYWORD_WHILE = 7,      //7 ::  while
 	TOK_KEYWORD_FOR = 8,        //8 ::  for

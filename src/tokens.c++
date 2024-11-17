@@ -7,7 +7,7 @@ const string tokens[] = {
 	"float",  //2 :: TOK_KEYWORD_FLOAT
 	"ptr",    //3 :: TOK_KEYWORD_PTR
 	"=",      //4 :: TOK_SYMBOL_ASSIGNMENT
-	"let",    //5 :: TOK_KEYWORD_NEW
+	"let",    //5 :: TOK_KEYWORD_LET
 	"set",    //6 :: TOK_KEYWORD_SET
 	"while",  //7 :: TOK_KEYWORD_WHILE
 	"for",    //8 :: TOK_KEYWORD_FOR

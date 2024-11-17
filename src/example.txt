@@ -1,5 +1,11 @@
 
 
+fn func(int x, int y, char z) {
+    
+}
+
+
+
 fn main() {
 
     let int x = [10];
@@ -9,10 +15,10 @@ fn main() {
     }
 
 
-    set x = 11;
+    set x = [11];
 
 
-    return 0;
+    return [0];
 }
 
 

@@ -15,7 +15,7 @@ tokens = {
     "float" : "TOK_KEYWORD_FLOAT",
     "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
-    "let" : "TOK_KEYWORD_NEW",
+    "let" : "TOK_KEYWORD_LET",
     "set" : "TOK_KEYWORD_SET",
 
         #Control flow
