@@ -32,6 +32,7 @@ tokens = {
     # Symbols
     "+" : "TOK_SYMBOL_PLUS",
     "==" : "TOK_SYMBOL_EQUALS",
+    "," : "TOK_SYMBOL_COMMA",
 
         #Pointers
     "@" : "TOK_SYMBOL_DEREFERENCE",

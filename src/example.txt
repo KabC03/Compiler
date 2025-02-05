@@ -1,27 +1,6 @@
 
 
-fn func(int x, int y, char z) {
-    
-}
-
-
-
-fn main() {
-
-    let int x = [10];
-
-    while [x+1] != [x-z+2] {
-
-    }
-
-
-    set x = [11];
-
-
-    return [0];
-}
-
-
+fn
 
 
 

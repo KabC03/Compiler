@@ -18,13 +18,14 @@ const string tokens[] = {
 	"return", //13 :: TOK_KEYWORD_RETURN
 	"+",      //14 :: TOK_SYMBOL_PLUS
 	"==",     //15 :: TOK_SYMBOL_EQUALS
-	"@",      //16 :: TOK_SYMBOL_DEREFERENCE
-	"(",      //17 :: TOK_BRACE_OPEN_PAREN
-	")",      //18 :: TOK_BRACE_CLOSE_PAREN
-	"{",      //19 :: TOK_BRACE_OPEN_CURLEY
-	"}",      //20 :: TOK_BRACE_CLOSE_CURLEY
-	"[",      //21 :: TOK_BRACE_OPEN_SQUARE
-	"]",      //22 :: TOK_BRACE_CLOSE_SQUARE
-	"<",      //23 :: TOK_BRACE_OPEN_ANGLE
-	">",      //24 :: TOK_BRACE_CLOSE_ANGLE
+	",",      //16 :: TOK_SYMBOL_COMMA
+	"@",      //17 :: TOK_SYMBOL_DEREFERENCE
+	"(",      //18 :: TOK_BRACE_OPEN_PAREN
+	")",      //19 :: TOK_BRACE_CLOSE_PAREN
+	"{",      //20 :: TOK_BRACE_OPEN_CURLEY
+	"}",      //21 :: TOK_BRACE_CLOSE_CURLEY
+	"[",      //22 :: TOK_BRACE_OPEN_SQUARE
+	"]",      //23 :: TOK_BRACE_CLOSE_SQUARE
+	"<",      //24 :: TOK_BRACE_OPEN_ANGLE
+	">",      //25 :: TOK_BRACE_CLOSE_ANGLE
 };

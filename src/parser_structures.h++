@@ -24,14 +24,15 @@ typedef struct Variable {
 
     size_t addressIndex; //Stack memory address of the variable
 
-    bool inRegister; //If in register or not
     int registerIndex; //Register number for the variable (-1 if not in register)
 
 } Variable;
 
 typedef struct FunctionScope {
 
-    unordered_map<string, Variable> variableMap;
+    unordered_map<string, Variable> variableMap; //Known variables to the function
+    TOKEN_ENUM returnType; //Return type of the function
+
 
 } FunctionScope;
 

@@ -1,8 +1,22 @@
 #include "parse.h++"
 #define HERE cout << "HERE" << endl;
+
+#define INTERNAL_MACRO_EXPECT_TOKEN(tok)\
+    { Token token = tokenise_request(text);\
+    if(token.tokenID != tok) {\
+        cout << "Expected " << token.tokenID << endl;\
+        return false;\
+    }}
+
+//TODO: Bit rough around the edges, better errors, make sure var name cannot duplicate a function
+
+
+
 bool declaringFunction = false;
 size_t stackIndex = 0;
 string text = "";
+unordered_set<string> knownFunctions; //Known functions, used for function call in asm
+
 
 //Get the datasize of a datatype
 size_t internal_get_variable_stack_size(Token &type) {
@@ -30,111 +44,123 @@ size_t internal_get_variable_stack_size(Token &type) {
 }
 
 
-//Parse an expression
-bool internal_parse_expression(FunctionScope &functionScope) {
-
-    return true;
-}
 
 
 
 
-//Declare a new variable in the given scope
-bool internal_parse_let(FunctionScope &functionScope) {
-
-
-    Variable newVariable;
-    newVariable.inRegister = false;
-    newVariable.addressIndex = stackIndex++;
-    newVariable.registerIndex = -1;
-
-    //Get the variable type
-    Token variableType = tokenise_request(text);
-    switch(variableType.tokenID) {
-        case TOK_KEYWORD_INT: {
-            newVariable.type = TOK_KEYWORD_INT;
-            break;
-        } case TOK_KEYWORD_FLOAT: {
-            newVariable.type = TOK_KEYWORD_FLOAT;
-            break;
-        } case TOK_KEYWORD_CHAR: {
-            newVariable.type = TOK_KEYWORD_CHAR;
-            break;
-        } default: {
-            cout << "Invalid type specified " << variableType.tokenString << endl;
-            return false;
-        }
-    }
-
-    //Get the variable name
-    Token newVariableName = tokenise_request(text);
-    //Check variable name type
-    if(newVariableName.tokenID != TOK_STRING_IMM) {
-        cout << "Cannot declare variable " << newVariableName.tokenString << endl;
-        return false;
-    }
-    //Check if variable exists
-    auto it = functionScope.variableMap.find(newVariableName.tokenString);
-    if(it != functionScope.variableMap.end()) {
-        //Found
-        cout << "Cannot redeclare variable " << newVariableName.tokenString << endl;
-        return false;
-    }
-
-    //Expect an equals
-    Token equals = tokenise_request(text);
-    if(equals.tokenID != TOK_SYMBOL_ASSIGNMENT) {
-        cout << "Expected equals in assignment" << endl;
-        return false;
-    }
-
-    //Parse an expression
-    if(internal_parse_expression(functionScope) == false) {
-        return false;
-    }
-
-    functionScope.variableMap[newVariableName.tokenString] = newVariable;
-
-    return true;
-}
 
 
 
 //Declare fn
 bool internal_parse_fn(void) {
-
+    //fn int foo(int x, char y) {...}
     if(declaringFunction == true) {
         cout << "Cannot declare a function inside a function" << endl;
         return false;
     }
     declaringFunction = true;
-
-    Token token = tokenise_request(text);
     FunctionScope functionScope; //Establish a new scope
-
 
     //Initialise a new function
     internal_macro_fn_init();
 
-    switch(token.tokenID) {
+    //Return type
+    Token token = tokenise_request(text);
+    if(token.tokenID != TOK_KEYWORD_INT 
+            && token.tokenID != TOK_KEYWORD_FLOAT 
+            && token.tokenID != TOK_KEYWORD_CHAR 
+            && token.tokenID != TOK_KEYWORD_PTR) {
+    
+        cout << "Unrecognised function return type " << token.tokenID << endl;
+        return false;
+    } else {
+        functionScope.returnType = token.tokenID;        
+    }
+    //Function name
+    token = tokenise_request(text);
+    //Check for redeclaration and if not there then add to known functions 
+    if(knownFunctions.find(token.tokenString) != knownFunctions.end()) {
+        cout << "Redeclaration of function" << endl; 
+        return false;
+    } else { //Insert into set
+        knownFunctions.insert(text);
+    }
+    //Expect opening brace
+    INTERNAL_MACRO_EXPECT_TOKEN(TOK_BRACE_OPEN_PAREN);
+    //Input parameters
 
-        case TOK_KEYWORD_LET: {
-            //Declare a new variable
-            if(internal_parse_let(functionScope) == false) {
+    bool expectName = false;
+    while(token.tokenID != TOK_BRACE_CLOSE_PAREN) {
+        //Expecting type name, type name, type name until a )
+        //Each variable should have an associated stack offset
+        Variable newVariable;
+        string newVariableName = "";
+
+        if(expectName == true) {
+            newVariableName = tokenise_request(text);     
+        } else { //Declare variable type
+            if(token.tokenID != TOK_KEYWORD_INT 
+                    && token.tokenID != TOK_KEYWORD_FLOAT 
+                    && token.tokenID != TOK_KEYWORD_CHAR 
+                    && token.tokenID != TOK_KEYWORD_PTR) {
+            
+                cout << "Unrecognised function return type " << token.tokenID << endl;
                 return false;
+            } else {
+                newVariable.type = token.tokenID;
             }
-
-        } case TOK_BRACE_CLOSE_CURLEY: {
-            //Finished parsing the function
-            internal_macro_fn_exit();
-            break;
-        } default: {
-            cout << "Unexpected token " << token.tokenID << endl;
-            return false;
-            break;
         }
 
+        functionScope.variableMap[newVariableName] = newVariable;
+
+        INTERNAL_MACRO_EXPECT_TOKEN(TOK_SYMBOL_COMMA);
+        token = tokenise_request(text);
+        expectName = !expectName;
     }
+    
+    //Expect {
+    INTERNAL_MACRO_EXPECT_TOKEN(TOK_BRACE_OPEN_CURLEY);
+
+    //Loop until a } is found 
+    token = tokenise_request(text);
+    while(token.tokenID != TOK_BRACE_CLOSE_CURLEY) {
+        switch(token.tokenID) {
+
+            case TOK_KEYWORD_INT: {
+                break;
+            } case TOK_KEYWORD_FLOAT: {
+                break;
+            } case TOK_KEYWORD_CHAR: {
+                break;
+            } case TOK_KEYWORD_PTR: {
+                break;
+            } case TOK_KEYWORD_IF: { //This function should also handle elif/else
+                break;
+            } case TOK_KEYWORD_WHILE: { 
+                break;
+            } case TOK_KEYWORD_FOR: {
+                break;
+            } case TOK_KEYWORD_RETURN: {
+                break;
+
+            } default: {
+
+                //Check variable map and function map then call assignment functions here
+
+                if(knownFunctions.find(token.tokenString) != knownFunctions.end()) {
+                    //Call function call
+                } else if(functionScope.variableMap.find(token.tokenString) != functionScope.variableMap.end()) { 
+                    //Call variable assignment
+                } else {
+                    //Unrecognised
+                    cout << "Unrecognised operation" << endl;
+                    return false;
+                }
+            }
+        }
+        token = tokenise_request(text);
+    }
+
 
     return true;
 }
@@ -156,6 +182,7 @@ bool parse(string &line) {
                 if(internal_parse_fn() == false) {
                     return false;
                 }
+                declaringFunction = false;
                 break;
             } default: {
                 cout << "Unrecognised token " << token.tokenID << endl;
