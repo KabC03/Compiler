@@ -1,0 +1,12 @@
+Currently working on register allocator - Need to save and load from stack
+
+
+
+Then should work on expression handling (left to right)
+
+Then declarations, redeclarations, while, if, etc
+
+
+
+
+

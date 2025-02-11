@@ -19,6 +19,7 @@ using namespace std;
 
 typedef struct VariableMetadata {
 
+    string name; //Name of the variable
     TOKEN_ENUM dataType; //Type of variable
     size_t stackOffset; //From bptr
     size_t registerIndex; //What register the variable is in

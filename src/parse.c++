@@ -61,7 +61,8 @@ bool internal_parse_fn(string &text, unordered_set<string> &knownFunctions) {
         } else {
             newVariable.dataType = variableTypeToken.tokenID;
         }
-               
+        
+        newVariable.name = variableNameToken.tokenString;
         newVariable.stackOffset = functionMetadata.stackTop+=4;
         newVariable.registerIndex = 0;
         newVariable.timesUsed = 0;
