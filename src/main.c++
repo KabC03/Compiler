@@ -13,13 +13,16 @@ int main(void) {
         cout << "Cannot open file" << endl;
         return 1;
     }
-
     stringstream buffer;
     buffer << file.rdbuf();
     string text = buffer.str();
 
 
-    parse(text);
+    Token token = tokenise_request(text);
+    tokenise_print(token);
+
+
+    //parse(text);
 
     return 0;
 }

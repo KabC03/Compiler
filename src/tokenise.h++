@@ -38,6 +38,7 @@ typedef enum TOKENISER_STATE {
 
 
 
+void tokenise_print(Token &token);
 void tokenise_init(void);
 Token tokenise_request(string &line);
 

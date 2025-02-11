@@ -4,37 +4,42 @@ import os;
 fileName = "./src/tokens";
 specifiers = [
 
-    "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM","TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID",
+    "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM","TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
     #TOK_INVALID is used to indicate failure
 ];
 tokens = {
     # Keywords
         #Types
-    "char" : "TOK_KEYWORD_CHAR",
+    "chr" : "TOK_KEYWORD_CHAR",
     "int" : "TOK_KEYWORD_INT", 
-    "float" : "TOK_KEYWORD_FLOAT",
+    "flt" : "TOK_KEYWORD_FLOAT",
     "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
-    "let" : "TOK_KEYWORD_LET",
-    "set" : "TOK_KEYWORD_SET",
 
         #Control flow
     "while" : "TOK_KEYWORD_WHILE", 
-    "for" : "TOK_KEYWORD_FOR",
     "if" : "TOK_KEYWORD_IF", 
     "elif" : "TOK_KEYWORD_ELIF", 
     "else" : "TOK_KEYWORD_ELSE", 
 
         #Functions
     "fn" : "TOK_KEYWORD_FN",
-    "return" : "TOK_KEYWORD_RETURN",
+    "ret" : "TOK_KEYWORD_RETURN",
 
     # Symbols
     "+" : "TOK_SYMBOL_PLUS",
+    "-" : "TOK_SYMBOL_MINUS",
+    "*" : "TOK_SYMBOL_MUL",
+    "/" : "TOK_SYMBOL_DIV",
     "==" : "TOK_SYMBOL_EQUALS",
+    ">=" : "TOK_SYMBOL_GREQ",
+    "<=" : "TOK_SYMBOL_LEQ",
+    "!=" : "TOK_SYMBOL_NEQ",
     "," : "TOK_SYMBOL_COMMA",
+    ";" : "TOK_SEMICOLON",
 
         #Pointers
+    "#" : "TOK_SYMBOL_REFERENCE",
     "@" : "TOK_SYMBOL_DEREFERENCE",
 
         # Braces

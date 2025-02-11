@@ -3,6 +3,19 @@
 unordered_map<string, TOKEN_ENUM> tokenMap;
 
 
+
+void tokenise_print(Token &token) {
+
+    cout << "Token ID: " << token.tokenID << " | Token String: " << token.tokenString << endl;
+
+
+    return;
+}
+
+
+
+
+
 //Initialise tokeniser hashmap
 void tokenise_init(void) {
 
@@ -52,12 +65,12 @@ Token tokenise_request(string &line) {
                 } else if(isspace(currentChar) == true) {
                     continue;
                 } else if(currentChar == '\0') {
-                    cout << "NULL CHAR" << endl;
-                    token.tokenID = TOK_INVALID;
+                    //cout << "EOF" << endl;
+                    token.tokenID = TOK_EOF;
                     return token;
                 } else {
                     //Unknown symbol
-                    cout << "Unrecognised symbol" << endl;
+                    cout << "ERROR: Unrecognised symbol '" << buffer << "'"  << endl;
                     token.tokenID = TOK_INVALID;
                     return token;
                 }
@@ -75,7 +88,8 @@ Token tokenise_request(string &line) {
                     return token;
                     
                 } else if(buffer.length() >= 3) {
-                    cout << "Char immediate too long" << endl;
+                    cout << "ERROR: Char immediate " << buffer << "' may only contain one character" << endl;
+                    token.tokenID = TOK_INVALID;
                     return token;
                 }
 
@@ -157,7 +171,7 @@ Token tokenise_request(string &line) {
                         index = saveIndex;
                         return token;
                     } else { //No symbol found
-                        cout << "Invalid symbol" << endl;
+                        cout << "ERROR: Invalid symbol '" << buffer << "'"  << endl;
                         token.tokenID = TOK_INVALID;
                         //ERROR
                         return token;
@@ -181,7 +195,7 @@ Token tokenise_request(string &line) {
 
         }
     }
-    cout << "Nothing found" << endl;
+    //cout << "Nothing found" << endl;
     token.tokenID = TOK_INVALID;
     return token;
 }
