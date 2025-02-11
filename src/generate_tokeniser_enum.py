@@ -23,7 +23,7 @@ tokens = {
     "else" : "TOK_KEYWORD_ELSE", 
 
         #Functions
-    "fn" : "TOK_KEYWORD_FN",
+    #"fn" : "TOK_KEYWORD_FN",
     "ret" : "TOK_KEYWORD_RETURN",
 
     # Symbols

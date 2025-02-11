@@ -19,7 +19,9 @@ int main(void) {
 
 
 
-    parse(text);
+    if(parse(text) == false) {
+        cout << "Parser error" << endl;
+    }
 
     return 0;
 }

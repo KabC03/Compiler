@@ -1,3 +1,8 @@
+In parse fn, should make sure functions have a MAP (not set) of name -> return type. Also function declaration should include a return type
+
+int foo(int x, char y) {...} instead of fn foo(int x, char y) {...}
+
+
 Currently working on register allocator - Need to save and load from stack
 
 

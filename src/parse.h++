@@ -7,7 +7,7 @@
 #include <string>
 #include <stack>
 #include "tokenise.h++"
-#include "pneumonics.h++"
+#include "architecture.h++"
 
 using namespace std;
 //Datatype sizes (bytes)

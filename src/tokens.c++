@@ -11,26 +11,25 @@ const string tokens[] = {
 	"if",    //6 :: TOK_KEYWORD_IF
 	"elif",  //7 :: TOK_KEYWORD_ELIF
 	"else",  //8 :: TOK_KEYWORD_ELSE
-	"fn",    //9 :: TOK_KEYWORD_FN
-	"ret",   //10 :: TOK_KEYWORD_RETURN
-	"+",     //11 :: TOK_SYMBOL_PLUS
-	"-",     //12 :: TOK_SYMBOL_MINUS
-	"*",     //13 :: TOK_SYMBOL_MUL
-	"/",     //14 :: TOK_SYMBOL_DIV
-	"==",    //15 :: TOK_SYMBOL_EQUALS
-	">=",    //16 :: TOK_SYMBOL_GREQ
-	"<=",    //17 :: TOK_SYMBOL_LEQ
-	"!=",    //18 :: TOK_SYMBOL_NEQ
-	",",     //19 :: TOK_SYMBOL_COMMA
-	";",     //20 :: TOK_SEMICOLON
-	"#",     //21 :: TOK_SYMBOL_REFERENCE
-	"@",     //22 :: TOK_SYMBOL_DEREFERENCE
-	"(",     //23 :: TOK_BRACE_OPEN_PAREN
-	")",     //24 :: TOK_BRACE_CLOSE_PAREN
-	"{",     //25 :: TOK_BRACE_OPEN_CURLEY
-	"}",     //26 :: TOK_BRACE_CLOSE_CURLEY
-	"[",     //27 :: TOK_BRACE_OPEN_SQUARE
-	"]",     //28 :: TOK_BRACE_CLOSE_SQUARE
-	"<",     //29 :: TOK_BRACE_OPEN_ANGLE
-	">",     //30 :: TOK_BRACE_CLOSE_ANGLE
+	"ret",   //9 :: TOK_KEYWORD_RETURN
+	"+",     //10 :: TOK_SYMBOL_PLUS
+	"-",     //11 :: TOK_SYMBOL_MINUS
+	"*",     //12 :: TOK_SYMBOL_MUL
+	"/",     //13 :: TOK_SYMBOL_DIV
+	"==",    //14 :: TOK_SYMBOL_EQUALS
+	">=",    //15 :: TOK_SYMBOL_GREQ
+	"<=",    //16 :: TOK_SYMBOL_LEQ
+	"!=",    //17 :: TOK_SYMBOL_NEQ
+	",",     //18 :: TOK_SYMBOL_COMMA
+	";",     //19 :: TOK_SEMICOLON
+	"#",     //20 :: TOK_SYMBOL_REFERENCE
+	"@",     //21 :: TOK_SYMBOL_DEREFERENCE
+	"(",     //22 :: TOK_BRACE_OPEN_PAREN
+	")",     //23 :: TOK_BRACE_CLOSE_PAREN
+	"{",     //24 :: TOK_BRACE_OPEN_CURLEY
+	"}",     //25 :: TOK_BRACE_CLOSE_CURLEY
+	"[",     //26 :: TOK_BRACE_OPEN_SQUARE
+	"]",     //27 :: TOK_BRACE_CLOSE_SQUARE
+	"<",     //28 :: TOK_BRACE_OPEN_ANGLE
+	">",     //29 :: TOK_BRACE_CLOSE_ANGLE
 };

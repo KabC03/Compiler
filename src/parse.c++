@@ -3,8 +3,11 @@
 
 
 //Parse fn statement
-bool internal_parse_fn(string &text, unordered_set<string> &knownFunctions) {
-    //fn name(int x, ptr y) {...}
+bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM functionReturnType) {
+    //int name(int x, ptr y) {...}
+
+    //NOTE: Passing functionReturnType from caller since name is not known then
+    //Combine the two pieces of the puzzle
 
     //Expect function name
     Token functionNameToken = tokenise_request(text);
@@ -15,7 +18,7 @@ bool internal_parse_fn(string &text, unordered_set<string> &knownFunctions) {
         cout << "ERROR: Redeclaration of function: '" << functionNameToken.tokenString << "'" << endl;
         return false;
     } else {
-        knownFunctions.insert(functionNameToken.tokenString);
+        knownFunctions[functionNameToken.tokenString] = functionReturnType;
     }
 
 
@@ -108,7 +111,7 @@ bool parse(string &text) {
     Token currentToken;
     currentToken.tokenID = TOK_INVALID;
 
-    unordered_set<string> knownFunctions;
+    unordered_map<string, TOKEN_ENUM> knownFunctions; //Name -> return type
 
 
     while(1) {
@@ -117,9 +120,12 @@ bool parse(string &text) {
         //Use if instead of switch - compiler will optimise it but it means I can break out of while loop
         if(currentToken.tokenID == TOK_EOF) {
             break;
-        } else if(currentToken.tokenID == TOK_KEYWORD_FN) {
+        } else if(currentToken.tokenID == TOK_KEYWORD_INT ||
+                  currentToken.tokenID == TOK_KEYWORD_FLOAT ||
+                  currentToken.tokenID == TOK_KEYWORD_CHAR ||
+                  currentToken.tokenID == TOK_KEYWORD_PTR) {
             //Function declaration    
-            if(internal_parse_fn(text, knownFunctions) == false) {
+            if(internal_parse_fn(text, knownFunctions, currentToken.tokenID) == false) {
                 return false;
             }
 
