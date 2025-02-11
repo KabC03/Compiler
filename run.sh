@@ -1,4 +1,4 @@
-
+clear
 
 mkdir ./output
 python3 ./src/generate_tokeniser_enum.py
