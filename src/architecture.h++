@@ -7,8 +7,10 @@
 #include <string>
 #include <stack>
 
-#define internal_macro_fn_init() 1
-#define internal_macro_fn_exit() 1
+
+#define ARCH_WORD_SIZE 4
+#define ARCH_NUM_REGISTERS 6 //Includes non-GPR
+
 
 
 

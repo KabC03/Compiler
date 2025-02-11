@@ -17,17 +17,22 @@ using namespace std;
 #define SIZE_DATATYPE_CHAR 1
 
 
-typedef struct Variable {
+typedef struct VariableMetadata {
 
     TOKEN_ENUM dataType; //Type of variable
     size_t stackOffset; //From bptr
-    int registerIndex; //What register the variable is in
+    size_t registerIndex; //What register the variable is in
     size_t timesUsed; //How many times this variable has been retrieved
     bool isSaved; //If variable is saved in a register
-} Variable;
+} VariableMetadata;
 
 
+typedef struct FunctionMetadata {
 
+    unordered_map<string, VariableMetadata> variableMap; //Known variables
+    size_t stackTop; //Current stack pointer
+
+} FunctionMetadata;
 
 bool parse(string &text);
 

@@ -18,11 +18,8 @@ int main(void) {
     string text = buffer.str();
 
 
-    Token token = tokenise_request(text);
-    tokenise_print(token);
 
-
-    //parse(text);
+    parse(text);
 
     return 0;
 }
