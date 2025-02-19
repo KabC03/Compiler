@@ -22,9 +22,8 @@ typedef struct VariableMetadata {
     string name; //Name of the variable
     TOKEN_ENUM dataType; //Type of variable
     size_t stackOffset; //From bptr
-    size_t registerIndex; //What register the variable is in
     size_t timesUsed; //How many times this variable has been retrieved
-    bool isSaved; //If variable is saved in a register
+    bool updated; //If variable is updated on stack (same as register)
 } VariableMetadata;
 
 

@@ -10,9 +10,9 @@ specifiers = [
 tokens = {
     # Keywords
         #Types
-    "chr" : "TOK_KEYWORD_CHAR",
+    "char" : "TOK_KEYWORD_CHAR",
     "int" : "TOK_KEYWORD_INT", 
-    "flt" : "TOK_KEYWORD_FLOAT",
+    "float" : "TOK_KEYWORD_FLOAT",
     "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
 
@@ -23,18 +23,21 @@ tokens = {
     "else" : "TOK_KEYWORD_ELSE", 
 
         #Functions
-    #"fn" : "TOK_KEYWORD_FN",
-    "ret" : "TOK_KEYWORD_RETURN",
+    "return" : "TOK_KEYWORD_RETURN",
 
     # Symbols
     "+" : "TOK_SYMBOL_PLUS",
     "-" : "TOK_SYMBOL_MINUS",
     "*" : "TOK_SYMBOL_MUL",
     "/" : "TOK_SYMBOL_DIV",
+
     "==" : "TOK_SYMBOL_EQUALS",
+    "!=" : "TOK_SYMBOL_NEQ",
     ">=" : "TOK_SYMBOL_GREQ",
     "<=" : "TOK_SYMBOL_LEQ",
-    "!=" : "TOK_SYMBOL_NEQ",
+    ">" : "TOK_SYMBOL_GREATER",
+    "<" : "TOK_SYMBOL_LESS",
+
     "," : "TOK_SYMBOL_COMMA",
     ";" : "TOK_SEMICOLON",
 
@@ -47,12 +50,6 @@ tokens = {
     ")" : "TOK_BRACE_CLOSE_PAREN",
     "{" : "TOK_BRACE_OPEN_CURLEY",
     "}" : "TOK_BRACE_CLOSE_CURLEY",
-
-    "[" : "TOK_BRACE_OPEN_SQUARE",
-    "]" : "TOK_BRACE_CLOSE_SQUARE",
-
-    "<" : "TOK_BRACE_OPEN_ANGLE",
-    ">" : "TOK_BRACE_CLOSE_ANGLE",
 };
 
 

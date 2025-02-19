@@ -67,9 +67,7 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
         
         newVariable.name = variableNameToken.tokenString;
         newVariable.stackOffset = functionMetadata.stackTop+=4;
-        newVariable.registerIndex = 0;
         newVariable.timesUsed = 0;
-        newVariable.isSaved = false;
         functionMetadata.variableMap[variableNameToken.tokenString] = newVariable;
 
 
@@ -93,7 +91,39 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
     }
 
     //UP TO HERE - GO THROUGH INT, FLOAT, FOR, WHILE, RECURSIVELY HERE
+    Token instructionToken = tokenise_request(text);
+    if(instructionToken.tokenID == TOK_KEYWORD_INT) {
 
+    } else if(instructionToken.tokenID == TOK_KEYWORD_FLOAT 
+            || instructionToken.tokenID == TOK_KEYWORD_CHAR 
+            || instructionToken.tokenID == TOK_KEYWORD_CHAR 
+            || instructionToken.tokenID == TOK_KEYWORD_PTR) {
+    //Variable declarations
+
+    } else if(instructionToken.tokenID == TOK_KEYWORD_WHILE) {
+
+    } else if(instructionToken.tokenID == TOK_KEYWORD_IF) {
+
+    } else if(instructionToken.tokenID == TOK_KEYWORD_ELIF) {
+
+    } else if(instructionToken.tokenID == TOK_KEYWORD_ELSE) {
+
+    } else if(instructionToken.tokenID == TOK_IDENTIFIER) { //Function calls and variable renaming
+        //Check if its a variable or a function
+        if(knownFunctions.find(instructionToken.tokenString) != knownFunctions.end()) {
+            //Call function call function (not recursion is allowed)
+
+        } else if(functionMetadata.variableMap.find(instructionToken.tokenString) != functionMetadata.variableMap.end()) {
+            //Call variable redeclaration function
+
+        } else {
+            cout << "ERROR: Unrecognised identifier: " << instructionToken.tokenString << endl;
+            return false;
+        }
+    } else {
+        cout << "ERROR: Expect valid instruction" << endl;
+        return false;
+    }
 
     //Expect a close curley brace
     Token closeCurleyToken = tokenise_request(text);

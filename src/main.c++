@@ -21,7 +21,11 @@ int main(void) {
 
     if(parse(text) == false) {
         cout << "Parser error" << endl;
+        return 1;
     }
+
+
+    cout << "Compilation complete" << endl;
 
     return 0;
 }

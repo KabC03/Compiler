@@ -13,6 +13,11 @@
 
 
 
+#define ARCH_SAVE_VAR_STACK(regSrc, stackDest) 1;
+#define ARCH_LOAD_VAR_STACK(regDest, stackSrc) 1;
+#define ARCH_LOAD_INT_IMM(regDest,const) 1;
+#define ARCH_LOAD_FLOAT_IMM(regDest, const) 1;
+
 
 #endif
 
