@@ -1,8 +1,29 @@
 #include "parse.h++"
 
 
-bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions) {
+//Return a tuple [bool indicating success, last token, register of returned]
+bool internal_parse_lr_expression(string &text, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions) {
+    //Evaluate x + 4 + y + ...
+    //Mov in first value then add everything after into accumulator
+   
 
+    //Request register from register file
+    //mov in first value
+    //Save next operator
+    //Request second register from register file
+    //mov in second value
+    //Do operation and save to first register
+    //Repeat until non-expression encountered
+    //Return register of result
+
+
+    return false;
+}
+
+
+
+bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions) {
+    //Create a variable (int x)
 
     VariableMetadata newVariable;
     Token variableNameToken = tokenise_request(text);
@@ -13,7 +34,7 @@ bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, Funct
     }
     //Check variable name does not clash
     if(knownFunctions.find(variableNameToken.tokenString) != knownFunctions.end()) {
-        cout << "ERROR: Variable name clashes with function: '" << functionNameToken.tokenString << "'" << endl;
+        cout << "ERROR: Variable name clashes with function: '" << variableNameToken.tokenString << "'" << endl;
         return false;
     } else if(functionMetadata.variableMap.find(variableNameToken.tokenString) != functionMetadata.variableMap.end()) {
         cout << "ERROR: Variable name clash for : '" << variableNameToken.tokenString << "'" << endl;
@@ -37,7 +58,7 @@ bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, Funct
 
 
 
-    return false;
+    return true;
 }
 
 
@@ -141,7 +162,7 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
             || instructionToken.tokenID == TOK_KEYWORD_CHAR) {
             
     //Variable declarations
-        if(internal_parse_declaration(text, functionMetadata, knownFunctions, instructionToken) == false) {
+        if(internal_parse_declaration(text, functionMetadata, knownFunctions, instructionToken.tokenID) == false) {
             return false;
         }
     } else if(instructionToken.tokenID == TOK_KEYWORD_WHILE) {
@@ -164,6 +185,7 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
             cout << "ERROR: Unrecognised identifier: " << instructionToken.tokenString << endl;
             return false;
         }
+
     } else {
         cout << "ERROR: Expect valid instruction" << endl;
         return false;

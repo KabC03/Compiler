@@ -1,6 +1,9 @@
 #include "registers.h++"
 
-
+//TODO: Refactor this so that its broken up into:
+//registers_request_free -> int
+//register_load_var -> int
+//register_load_imm -> int
 
 
 
@@ -30,7 +33,7 @@ size_t registers_load_variable(vector<RegisterItem> registers, FunctionMetadata 
     size_t leastUsedRegisterIndex = 0; 
     for(size_t i = 0; i < registers.size(); i++) {
         if(registers[leastUsedRegisterIndex].variableMetadata.timesUsed > registers[i].variableMetadata.timesUsed) {
-            leastUsedRegisterIndex = i;;
+            leastUsedRegisterIndex = i;
         }
     }
 

@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <string>
 #include <stack>
+#include <tuple>
 #include "tokenise.h++"
 #include "architecture.h++"
 

@@ -3,7 +3,9 @@ In parse fn, should make sure functions have a MAP (not set) of name -> return t
 int foo(int x, char y) {...} instead of fn foo(int x, char y) {...}
 
 
-Currently working on register allocator - Need to save and load from stack
+Consider adding a feature to tell the compiler to use RPN to evalate an expression vs left to right
+(a+b)*(c+d) cannot be refactored to be evaluated left to right so MUST use the stack as temporary storage
+This is slower than just left to right evaluation because it requires stack read/writes whereas left to right just needs 2 registers
 
 
 
