@@ -19,7 +19,7 @@ using namespace std;
 
 typedef struct VariableMetadata {
 
-    string name; //Name of the variable
+    string name; //Name of the variable :: TODO: Remove this I dont think its needed
     TOKEN_ENUM dataType; //Type of variable
     size_t stackOffset; //From bptr
     size_t timesUsed; //How many times this variable has been retrieved

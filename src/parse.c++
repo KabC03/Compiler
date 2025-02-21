@@ -1,6 +1,76 @@
 #include "parse.h++"
 
 
+bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions) {
+
+
+    VariableMetadata newVariable;
+    Token variableNameToken = tokenise_request(text);
+
+    if(variableNameToken.tokenID != TOK_IDENTIFIER) {
+        cout << "ERROR: Invalid variable name" << endl;
+        return false;
+    }
+    //Check variable name does not clash
+    if(knownFunctions.find(variableNameToken.tokenString) != knownFunctions.end()) {
+        cout << "ERROR: Variable name clashes with function: '" << functionNameToken.tokenString << "'" << endl;
+        return false;
+    } else if(functionMetadata.variableMap.find(variableNameToken.tokenString) != functionMetadata.variableMap.end()) {
+        cout << "ERROR: Variable name clash for : '" << variableNameToken.tokenString << "'" << endl;
+        return false;
+    } 
+
+    if(newVarType != TOK_KEYWORD_INT && 
+       newVarType != TOK_KEYWORD_FLOAT &&
+       newVarType != TOK_KEYWORD_CHAR) {
+
+        cout << "ERROR: Unrecognised datatype for variable: '" << variableNameToken.tokenString << "'" << endl;
+        return false;
+    } else {
+        newVariable.dataType = newVarType;
+    }
+    
+    newVariable.name = variableNameToken.tokenString;
+    newVariable.stackOffset = functionMetadata.stackTop+=4;
+    newVariable.timesUsed = 0;
+    functionMetadata.variableMap[variableNameToken.tokenString] = newVariable;
+
+
+
+    return false;
+}
+
+
+bool internal_parse_declaration(string &text, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM type) {
+    //int x = 10 + 2;
+    
+    //Handle int x part
+    if(internal_parse_variable_creation(text, type, functionMetadata, knownFunctions) == false) {
+        return false;
+    }
+
+
+    //Expect = sign
+    Token equalsAssignmentToken = tokenise_request(text);
+    if(equalsAssignmentToken.tokenID != TOK_SYMBOL_ASSIGNMENT) {
+        cout << "ERROR: Expect assignment operator following variable declaration" << endl;
+        return false;
+    }
+
+    //Evaluate expression
+    //TODO: EVAL EXPRESSION
+
+    //Expect semicolon
+    Token semicolonToken = tokenise_request(text);
+    if(semicolonToken.tokenID != TOK_SYMBOL_ASSIGNMENT) {
+        cout << "ERROR: Expect semicolon following variable declaration" << endl;
+        return false;
+    }
+
+
+    return true;
+}
+
 
 //Parse fn statement
 bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM functionReturnType) {
@@ -37,38 +107,10 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
     while(declaringFnArgs == true) {
         //Expect type - name - comma || close paren
         Token variableTypeToken = tokenise_request(text);
-        Token variableNameToken = tokenise_request(text);
-        VariableMetadata newVariable;
 
-
-        if(variableNameToken.tokenID != TOK_IDENTIFIER) {
-            cout << "ERROR: Invalid variable name" << endl;
+        if(internal_parse_variable_creation(text, variableTypeToken.tokenID, functionMetadata, knownFunctions) == false) {
             return false;
         }
-        //Check variable name does not clash
-        if(knownFunctions.find(variableNameToken.tokenString) != knownFunctions.end()) {
-            cout << "ERROR: Variable name clashes with function: '" << functionNameToken.tokenString << "'" << endl;
-            return false;
-        } else if(functionMetadata.variableMap.find(variableNameToken.tokenString) != functionMetadata.variableMap.end()) {
-            cout << "ERROR: Variable name clash for : '" << variableNameToken.tokenString << "'" << endl;
-            return false;
-        } 
-
-        if(variableTypeToken.tokenID != TOK_KEYWORD_INT && 
-           variableTypeToken.tokenID != TOK_KEYWORD_FLOAT &&
-           variableTypeToken.tokenID != TOK_KEYWORD_CHAR &&
-           variableTypeToken.tokenID != TOK_KEYWORD_PTR ) {
-
-            cout << "ERROR: Unrecognised datatype for variable: '" << variableNameToken.tokenString << "'" << endl;
-            return false;
-        } else {
-            newVariable.dataType = variableTypeToken.tokenID;
-        }
-        
-        newVariable.name = variableNameToken.tokenString;
-        newVariable.stackOffset = functionMetadata.stackTop+=4;
-        newVariable.timesUsed = 0;
-        functionMetadata.variableMap[variableNameToken.tokenString] = newVariable;
 
 
         //Expect a comma or brace
@@ -96,10 +138,12 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
 
     } else if(instructionToken.tokenID == TOK_KEYWORD_FLOAT 
             || instructionToken.tokenID == TOK_KEYWORD_CHAR 
-            || instructionToken.tokenID == TOK_KEYWORD_CHAR 
-            || instructionToken.tokenID == TOK_KEYWORD_PTR) {
+            || instructionToken.tokenID == TOK_KEYWORD_CHAR) {
+            
     //Variable declarations
-
+        if(internal_parse_declaration(text, functionMetadata, knownFunctions, instructionToken) == false) {
+            return false;
+        }
     } else if(instructionToken.tokenID == TOK_KEYWORD_WHILE) {
 
     } else if(instructionToken.tokenID == TOK_KEYWORD_IF) {
@@ -152,8 +196,7 @@ bool parse(string &text) {
             break;
         } else if(currentToken.tokenID == TOK_KEYWORD_INT ||
                   currentToken.tokenID == TOK_KEYWORD_FLOAT ||
-                  currentToken.tokenID == TOK_KEYWORD_CHAR ||
-                  currentToken.tokenID == TOK_KEYWORD_PTR) {
+                  currentToken.tokenID == TOK_KEYWORD_CHAR) {
             //Function declaration    
             if(internal_parse_fn(text, knownFunctions, currentToken.tokenID) == false) {
                 return false;

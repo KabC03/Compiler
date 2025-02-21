@@ -5,29 +5,28 @@ const string tokens[] = {
 	"char",   //0 :: TOK_KEYWORD_CHAR
 	"int",    //1 :: TOK_KEYWORD_INT
 	"float",  //2 :: TOK_KEYWORD_FLOAT
-	"ptr",    //3 :: TOK_KEYWORD_PTR
-	"=",      //4 :: TOK_SYMBOL_ASSIGNMENT
-	"while",  //5 :: TOK_KEYWORD_WHILE
-	"if",     //6 :: TOK_KEYWORD_IF
-	"elif",   //7 :: TOK_KEYWORD_ELIF
-	"else",   //8 :: TOK_KEYWORD_ELSE
-	"return", //9 :: TOK_KEYWORD_RETURN
-	"+",      //10 :: TOK_SYMBOL_PLUS
-	"-",      //11 :: TOK_SYMBOL_MINUS
-	"*",      //12 :: TOK_SYMBOL_MUL
-	"/",      //13 :: TOK_SYMBOL_DIV
-	"==",     //14 :: TOK_SYMBOL_EQUALS
-	"!=",     //15 :: TOK_SYMBOL_NEQ
-	">=",     //16 :: TOK_SYMBOL_GREQ
-	"<=",     //17 :: TOK_SYMBOL_LEQ
-	">",      //18 :: TOK_SYMBOL_GREATER
-	"<",      //19 :: TOK_SYMBOL_LESS
-	",",      //20 :: TOK_SYMBOL_COMMA
-	";",      //21 :: TOK_SEMICOLON
-	"#",      //22 :: TOK_SYMBOL_REFERENCE
-	"@",      //23 :: TOK_SYMBOL_DEREFERENCE
-	"(",      //24 :: TOK_BRACE_OPEN_PAREN
-	")",      //25 :: TOK_BRACE_CLOSE_PAREN
-	"{",      //26 :: TOK_BRACE_OPEN_CURLEY
-	"}",      //27 :: TOK_BRACE_CLOSE_CURLEY
+	"=",      //3 :: TOK_SYMBOL_ASSIGNMENT
+	"while",  //4 :: TOK_KEYWORD_WHILE
+	"if",     //5 :: TOK_KEYWORD_IF
+	"elif",   //6 :: TOK_KEYWORD_ELIF
+	"else",   //7 :: TOK_KEYWORD_ELSE
+	"return", //8 :: TOK_KEYWORD_RETURN
+	"+",      //9 :: TOK_SYMBOL_PLUS
+	"-",      //10 :: TOK_SYMBOL_MINUS
+	"*",      //11 :: TOK_SYMBOL_MUL
+	"/",      //12 :: TOK_SYMBOL_DIV
+	"==",     //13 :: TOK_SYMBOL_EQUALS
+	"!=",     //14 :: TOK_SYMBOL_NEQ
+	">=",     //15 :: TOK_SYMBOL_GREQ
+	"<=",     //16 :: TOK_SYMBOL_LEQ
+	">",      //17 :: TOK_SYMBOL_GREATER
+	"<",      //18 :: TOK_SYMBOL_LESS
+	",",      //19 :: TOK_SYMBOL_COMMA
+	";",      //20 :: TOK_SEMICOLON
+	"#",      //21 :: TOK_SYMBOL_REFERENCE
+	"@",      //22 :: TOK_SYMBOL_DEREFERENCE
+	"(",      //23 :: TOK_BRACE_OPEN_PAREN
+	")",      //24 :: TOK_BRACE_CLOSE_PAREN
+	"{",      //25 :: TOK_BRACE_OPEN_CURLEY
+	"}",      //26 :: TOK_BRACE_CLOSE_CURLEY
 };

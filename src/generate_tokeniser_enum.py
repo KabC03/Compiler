@@ -13,7 +13,6 @@ tokens = {
     "char" : "TOK_KEYWORD_CHAR",
     "int" : "TOK_KEYWORD_INT", 
     "float" : "TOK_KEYWORD_FLOAT",
-    "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
 
         #Control flow
