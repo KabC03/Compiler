@@ -9,7 +9,7 @@
 
 
 #define ARCH_WORD_SIZE 4
-#define ARCH_NUM_REGISTERS 6 //Includes non-GPR
+#define ARCH_NUM_REGISTERS 6 //DOES NOT include non-GPR
 
 
 

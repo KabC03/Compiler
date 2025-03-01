@@ -2,7 +2,7 @@
 
 
 //Return a tuple [bool indicating success, last token, register of returned]
-bool internal_parse_lr_expression(string &text, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions) {
+tuple<bool, size_t, Token> internal_parse_lr_expression(string &text, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions, vector<RegisterItem> registerFile) {
     //Evaluate x + 4 + y + ...
     //Mov in first value then add everything after into accumulator
    
@@ -16,13 +16,116 @@ bool internal_parse_lr_expression(string &text, FunctionMetadata &functionMetada
     //Repeat until non-expression encountered
     //Return register of result
 
+    //Tuple: bool indicates success/failure and size_t indicates register of result
+    //Also returns the terminal token where token was stopped tokenising at
+    
+    Token firstOperand = tokenise_request(text);
+    if(firstOperand.tokenID != TOK_IDENTIFIER 
+            || firstOperand.tokenID != TOK_INT_IMM 
+            || firstOperand.tokenID != TOK_FLOAT_IMM
+            || firstOperand.tokenID != TOK_CHAR_IMM) {
+        cout << "ERROR: Expect valid operand" << endl; 
+        return make_tuple(false, 0, TOK_INVALID);
+    }
+    
+    size_t accumReg = 0;
+    if(firstOperand.tokenID == TOK_IDENTIFIER) { //Variable or function
+        //TODO: PUT IN ARGS HERE
+    
+    } else { //Immediate
+        //TODO
+    }
+   
+    Token invalidToken;
+    bool expectOperand = false;
+    bool sourceRegExists = false;
+    size_t sourceReg = 0;
+    TOKEN_ENUM operandType = TOK_INVALID;
+    while(1) {
+        Token currentToken = tokenise_request(text);
 
-    return false;
+        if(expectOperand == true) {
+
+            if(sourceRegExists == false) {
+                //TODO: Request register for source
+                sourceRegExists = true;
+            }
+
+            if(currentToken.tokenID != TOK_INT_IMM || 
+                    currentToken.tokenID != TOK_FLOAT_IMM ||
+                    currentToken.tokenID != TOK_CHAR_IMM) {
+                cout << "ERROR: Expect valid operand" << endl; 
+                return make_tuple(false, 0, invalidToken);
+            }
+            operandType = currentToken.tokenID;
+
+            //TODO: Load immediate, variable or function to the source
+
+        } else {
+
+            //Perform operation on the accumulator and source
+            if(currentToken.tokenID == TOK_SYMBOL_PLUS) {
+                if(operandType == TOK_KEYWORD_INT) {
+                    ARCH_ADD_INT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_FLOAT) {
+                    ARCH_ADD_FLOAT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_CHAR) {
+                    ARCH_ADD_CHAR(accumReg, sourceReg);
+                } else {
+                    cout << "ERROR: Unrecognised datatype for variable: '" << variableNameToken.tokenString << "'" << endl;
+                    return make_tuple(false, 0, invalidToken);
+                }
+
+            } else if(currentToken.tokenID == TOK_SYMBOL_MINUS) {
+                if(operandType == TOK_KEYWORD_INT) {
+                    ARCH_SUB_INT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_FLOAT) {
+                    ARCH_SUB_FLOAT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_CHAR) {
+                    ARCH_SUB_CHAR(accumReg, sourceReg);
+                } else {
+                    cout << "ERROR: Unrecognised datatype for variable: '" << variableNameToken.tokenString << "'" << endl;
+                    return make_tuple(false, 0, invalidToken);
+                }
+            } else if(currentToken.tokenID == TOK_SYMBOL_MUL) {
+
+                if(operandType == TOK_KEYWORD_INT) {
+                    ARCH_MUL_INT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_FLOAT) {
+                    ARCH_MUL_FLOAT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_CHAR) {
+                    ARCH_MUL_CHAR(accumReg, sourceReg);
+                } else {
+                    cout << "ERROR: Unrecognised datatype for variable: '" << variableNameToken.tokenString << "'" << endl;
+                    return make_tuple(false, 0, invalidToken);
+                }
+
+            } else if(currentToken.tokenID == TOK_SYMBOL_DIV) {
+                if(operandType == TOK_KEYWORD_INT) {
+                    ARCH_DIV_INT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_FLOAT) {
+                    ARCH_DIV_FLOAT(accumReg, sourceReg);
+                } else if(operandType == TOK_KEYWORD_CHAR) {
+                    ARCH_DIV_CHAR(accumReg, sourceReg);
+                } else {
+                    cout << "ERROR: Unrecognised datatype for variable: '" << variableNameToken.tokenString << "'" << endl;
+                    return make_tuple(false, 0, invalidToken);
+                }
+            } else {
+                return make_tuple(true, accumReg, currentToken); //Done parsing
+            }
+        }
+        expectOperand = !expectOperand;
+    }
+    
+
+    return make_tuple(false, 0, invalidToken);
+
 }
 
 
 
-bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions) {
+bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions, vector<RegisterItem> &registerFile) {
     //Create a variable (int x)
 
     VariableMetadata newVariable;
@@ -62,11 +165,11 @@ bool internal_parse_variable_creation(string &text, TOKEN_ENUM newVarType, Funct
 }
 
 
-bool internal_parse_declaration(string &text, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM type) {
+bool internal_parse_declaration(string &text, FunctionMetadata &functionMetadata, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM type, vector<RegisterItem> &registerFile) {
     //int x = 10 + 2;
     
     //Handle int x part
-    if(internal_parse_variable_creation(text, type, functionMetadata, knownFunctions) == false) {
+    if(internal_parse_variable_creation(text, type, functionMetadata, knownFunctions, registerFile) == false) {
         return false;
     }
 
@@ -94,7 +197,7 @@ bool internal_parse_declaration(string &text, FunctionMetadata &functionMetadata
 
 
 //Parse fn statement
-bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM functionReturnType) {
+bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFunctions, TOKEN_ENUM functionReturnType, vector<RegisterItem> &registerFile) {
     //int name(int x, ptr y) {...}
 
     //NOTE: Passing functionReturnType from caller since name is not known then
@@ -129,7 +232,7 @@ bool internal_parse_fn(string &text, unordered_map<string, TOKEN_ENUM> &knownFun
         //Expect type - name - comma || close paren
         Token variableTypeToken = tokenise_request(text);
 
-        if(internal_parse_variable_creation(text, variableTypeToken.tokenID, functionMetadata, knownFunctions) == false) {
+        if(internal_parse_variable_creation(text, variableTypeToken.tokenID, functionMetadata, knownFunctions, registerFile) == false) {
             return false;
         }
 
@@ -208,7 +311,7 @@ bool parse(string &text) {
     currentToken.tokenID = TOK_INVALID;
 
     unordered_map<string, TOKEN_ENUM> knownFunctions; //Name -> return type
-
+    vector<RegisterItem> registerFile(ARCH_NUM_REGISTERS);
 
     while(1) {
         currentToken = tokenise_request(text);
@@ -220,7 +323,7 @@ bool parse(string &text) {
                   currentToken.tokenID == TOK_KEYWORD_FLOAT ||
                   currentToken.tokenID == TOK_KEYWORD_CHAR) {
             //Function declaration    
-            if(internal_parse_fn(text, knownFunctions, currentToken.tokenID) == false) {
+            if(internal_parse_fn(text, knownFunctions, currentToken.tokenID, registerFile) == false) {
                 return false;
             }
 

@@ -18,8 +18,6 @@ typedef struct RegisterItem {
 } RegisterItem;
 
 
-size_t registers_load_variable(vector<RegisterItem> registers, FunctionMetadata functionMetadata, string varNameToLoad);
-size_t registers_load_immediate(vector<RegisterItem> registers, FunctionMetadata functionMetadata, size_t immediate, TOKEN_ENUM type);
 
 
 #endif 
