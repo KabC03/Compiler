@@ -18,8 +18,9 @@ typedef struct RegisterItem {
 } RegisterItem;
 
 
-
-
+size_t register_request(vector<RegisterItem> registerFile);
+void register_mark_used(vector<RegisterItem> registerFile, size_t index);
+void register_mark_free(vector<RegisterItem> registerFile, size_t index);
 #endif 
 
 

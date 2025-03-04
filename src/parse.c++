@@ -28,14 +28,32 @@ tuple<bool, size_t, Token> internal_parse_lr_expression(string &text, FunctionMe
         return make_tuple(false, 0, TOK_INVALID);
     }
     
-    size_t accumReg = 0;
+    size_t accumReg = register_request(registerFile, functionMetadata, variableMetadata);
+    register_mark_used(accumReg);
     if(firstOperand.tokenID == TOK_IDENTIFIER) { //Variable or function
-        //TODO: PUT IN ARGS HERE
+        //TODO: HERE
+        //For variable - call macro
+        //For function - call function that handles that stuff
     
     } else { //Immediate
-        //TODO
+        switch(firstOperand.tokenID) {
+            case TOK_INT_IMM: {
+                ARCH_LOAD_INT_IMM(accumReg, firstOperand.tokenString);
+                break;
+            } case TOK_FLOAT_IMM: {
+                ARCH_LOAD_FLOAT_IMM(accumReg, firstOperand.tokenString);
+                break;
+            } case TOK_CHAR_IMM: {
+                ARCH_LOAD_CHAR(accumReg, firstOperand.tokenString);
+                break;
+            } default: {
+                break;
+            }
+        }
     }
-   
+  
+    
+
     Token invalidToken;
     bool expectOperand = false;
     bool sourceRegExists = false;
