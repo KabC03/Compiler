@@ -8,6 +8,7 @@
 #include <string>
 #include <stack>
 #include <tuple>
+#define HERE cout << "\n\nHERE\n\n" << endl;
 
 
 typedef struct Token {
@@ -20,7 +21,6 @@ typedef struct Token {
 
 typedef struct VariableMetadata {
 
-    string name; //Name of the variable :: TODO: Remove this I dont think its needed
     TOKEN_ENUM dataType; //Type of variable
     size_t stackOffset; //From bptr
     size_t timesUsed; //How many times this variable has been retrieved
@@ -32,6 +32,7 @@ typedef struct FunctionMetadata { //Information about the current function scope
 
     unordered_map<string, VariableMetadata> variableMap; //Known variables
     size_t stackTop; //Current stack pointer
+    TOKEN_ENUM returnType; //Return type of function
 
 } FunctionMetadata;
 

@@ -11,11 +11,11 @@
 #include "compiler_structures.h++"
 
 
-vector<RegisterItem> register_init(void);
-size_t register_request(vector<RegisterItem> registerFile);
-void register_mark_used(vector<RegisterItem> registerFile, size_t index);
-void register_mark_free(vector<RegisterItem> registerFile, size_t index);
-void register_load_var_to_reg(vector<RegisterItem> &registerFile, size_t registerIndex, VariableMetadata &variable, bool isUpdated);
+void register_init(void);
+size_t register_request(void);
+void register_mark_used(size_t index);
+void register_mark_free(size_t index);
+void register_load_var_to_reg(size_t registerIndex, VariableMetadata &variable, bool isUpdated);
 #endif 
 
 

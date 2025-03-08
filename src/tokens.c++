@@ -10,25 +10,27 @@ const string tokens[] = {
 	"if",     //5 :: TOK_KEYWORD_IF
 	"elif",   //6 :: TOK_KEYWORD_ELIF
 	"else",   //7 :: TOK_KEYWORD_ELSE
-	"return", //8 :: TOK_KEYWORD_RETURN
-	"+",      //9 :: TOK_SYMBOL_PLUS
-	"-",      //10 :: TOK_SYMBOL_MINUS
-	"*",      //11 :: TOK_SYMBOL_MUL
-	"/",      //12 :: TOK_SYMBOL_DIV
-	"==",     //13 :: TOK_SYMBOL_EQUALS
-	"!=",     //14 :: TOK_SYMBOL_NEQ
-	">=",     //15 :: TOK_SYMBOL_GREQ
-	"<=",     //16 :: TOK_SYMBOL_LEQ
-	">",      //17 :: TOK_SYMBOL_GREATER
-	"<",      //18 :: TOK_SYMBOL_LESS
-	",",      //19 :: TOK_SYMBOL_COMMA
-	";",      //20 :: TOK_SEMICOLON
-	"#",      //21 :: TOK_SYMBOL_REFERENCE
-	"@",      //22 :: TOK_SYMBOL_DEREFERENCE
-	"(",      //23 :: TOK_BRACE_OPEN_PAREN
-	")",      //24 :: TOK_BRACE_CLOSE_PAREN
-	"{",      //25 :: TOK_BRACE_OPEN_CURLEY
-	"}",      //26 :: TOK_BRACE_CLOSE_CURLEY
-	"[",      //27 :: TOK_BRACE_OPEN_SQUARE
-	"]",      //28 :: TOK_BRACE_CLOSE_SQUARE
+	"call",   //8 :: TOK_KEYWORD_CALL
+	"fn",     //9 :: TOK_KEYWORD_FN
+	"return", //10 :: TOK_KEYWORD_RETURN
+	"+",      //11 :: TOK_SYMBOL_PLUS
+	"-",      //12 :: TOK_SYMBOL_MINUS
+	"*",      //13 :: TOK_SYMBOL_MUL
+	"/",      //14 :: TOK_SYMBOL_DIV
+	"==",     //15 :: TOK_SYMBOL_EQUALS
+	"!=",     //16 :: TOK_SYMBOL_NEQ
+	">=",     //17 :: TOK_SYMBOL_GREQ
+	"<=",     //18 :: TOK_SYMBOL_LEQ
+	">",      //19 :: TOK_SYMBOL_GREATER
+	"<",      //20 :: TOK_SYMBOL_LESS
+	",",      //21 :: TOK_SYMBOL_COMMA
+	";",      //22 :: TOK_SEMICOLON
+	"#",      //23 :: TOK_SYMBOL_REFERENCE
+	"@",      //24 :: TOK_SYMBOL_DEREFERENCE
+	"(",      //25 :: TOK_BRACE_OPEN_PAREN
+	")",      //26 :: TOK_BRACE_CLOSE_PAREN
+	"{",      //27 :: TOK_BRACE_OPEN_CURLEY
+	"}",      //28 :: TOK_BRACE_CLOSE_CURLEY
+	"[",      //29 :: TOK_BRACE_OPEN_SQUARE
+	"]",      //30 :: TOK_BRACE_CLOSE_SQUARE
 };

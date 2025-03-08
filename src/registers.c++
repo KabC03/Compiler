@@ -13,18 +13,18 @@
 
 //NOTE: Should use macro to load immediate to register, mark as unused first
 
+vector<RegisterItem> registerFile;
 
 
-
-vector<RegisterItem> register_init(void) {
+void register_init(void) {
 
     vector<RegisterItem> registers;
     registers.resize(ARCH_NUM_GP_REGISTERS);
 
-    return registers;
+    return;
 }
 
-size_t register_request(vector<RegisterItem> registerFile) {
+size_t register_request(void) {
 
     //Check for unused space
     for(size_t i = 1; i < registerFile.size(); i++) {
@@ -49,16 +49,16 @@ size_t register_request(vector<RegisterItem> registerFile) {
     return lrrIndex;
 }
 
-void register_mark_used(vector<RegisterItem> registerFile, size_t index) {
+void register_mark_used(size_t index) {
     registerFile[index].isFree = false;
     return;
 }
-void register_mark_free(vector<RegisterItem> registerFile, size_t index) {
+void register_mark_free(size_t index) {
     registerFile[index].isFree = true;
     return;
 }
 
-void register_load_var_to_reg(vector<RegisterItem> &registerFile, size_t registerIndex, VariableMetadata &variable, bool isUpdated) {
+void register_load_var_to_reg(size_t registerIndex, VariableMetadata &variable, bool isUpdated) {
 
     registerFile[registerIndex].variableMetadata = variable; 
     if(isUpdated == false) { //If doing a reassignment and this is the destination (where its not just read)

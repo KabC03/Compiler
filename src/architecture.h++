@@ -12,13 +12,12 @@
 #define ARCH_WORD_SIZE 4
 #define ARCH_NUM_GP_REGISTERS 6 //DOES NOT include non-GPR
 
-
 //Memory
 #define ARCH_SAVE_VAR_TO_STACK(regSrc, stackDest) 1;
 #define ARCH_LOAD_VAR_FROM_STACK(regDest, stackSrc) 1;
 #define ARCH_LOAD_INT_TO_REG(regDest,const) 1;
 #define ARCH_LOAD_FLOAT_TO_REG(regDest, const) 1;
-
+#define ARCH_ADD_BPTR(regDest); //Add base pointer to this value and save it in the same place
 
 //ALU
 #define ARCH_MOV(dest, src) 1;

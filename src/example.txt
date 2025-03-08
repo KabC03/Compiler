@@ -1,7 +1,11 @@
 
 
 
-int name(int x, char y) {
+fn int name(int x, float y) 
+[
+
+]
+{
 
 
 }

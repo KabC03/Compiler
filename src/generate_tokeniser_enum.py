@@ -5,6 +5,7 @@ fileName = "./src/tokens";
 specifiers = [
 
     "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM","TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
+    "TOK_TYPE_INT", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
     #TOK_INVALID is used to indicate failure
 ];
 tokens = {
@@ -22,6 +23,8 @@ tokens = {
     "else" : "TOK_KEYWORD_ELSE", 
 
         #Functions
+    "call" : "TOK_KEYWORD_CALL",
+    "fn" : "TOK_KEYWORD_FN",
     "return" : "TOK_KEYWORD_RETURN",
 
     # Symbols

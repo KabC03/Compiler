@@ -8,6 +8,10 @@
 int main(void) {
 
     tokenise_init();
+    register_init();
+    parse_init();
+
+
     string fileName = "./src/example.txt";
     ifstream file(fileName);
 
@@ -20,12 +24,10 @@ int main(void) {
     string text = buffer.str();
 
 
-    /*
-    if(parse(text) == false) {
+    if(parse_parse(text) == false) {
         cout << "Parser error" << endl;
         return 1;
     }
-    */
 
 
     cout << "Compilation complete" << endl;

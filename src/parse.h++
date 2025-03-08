@@ -14,14 +14,13 @@
 
 using namespace std;
 //Datatype sizes (bytes)
-#define SIZE_DATATYPE_INT 4
-#define SIZE_DATATYPE_FLOAT 4
-#define SIZE_DATATYPE_PTR 8
-#define SIZE_DATATYPE_CHAR 1
+#define PARSE_SIZE_DATATYPE_INT 4
+#define PARSE_SIZE_DATATYPE_FLOAT 4
+#define PARSE_ENTRYPOINT "main" //Name of main function
+#define PARSE_RETURN_REGISTER_NUMBER 0 //Functions return to R0
 
-
-
-bool parse(string &text);
+void parse_init(void);
+bool parse_parse(string &text);
 
 
 
