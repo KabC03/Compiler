@@ -50,7 +50,12 @@ Token tokenise_request(string &line) {
                 
                 index++;
                 if(currentChar == '\'') {
-                    state = STATE_CHAR_IMM;
+
+                    //state = STATE_CHAR_IMM;
+                    cout << "ERROR: Chars are not yet implemented" << endl;
+                    token.tokenID = TOK_INVALID;
+                    return token;
+
                 } else if(currentChar == '"') {
                     state = STATE_STRING_IMM;
                 } else if(currentChar == '.') {

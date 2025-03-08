@@ -6,6 +6,8 @@
 #include <unordered_set>
 #include <string>
 #include "tokens.h++"
+#include "compiler_structures.h++"
+
 
 using namespace std;
 
@@ -14,13 +16,6 @@ using namespace std;
 //Alphanumeric next to space or symbol
 //String literals enclosed via ""
 //Brackets, comma
-
-typedef struct Token {
-
-    TOKEN_ENUM tokenID; //ID of token (e.g while, for, if, etc)
-    string tokenString; //For variable names, immediates, etc
-    
-} Token;
 
 typedef enum TOKENISER_STATE {
 

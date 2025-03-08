@@ -49,6 +49,8 @@ tokens = {
     ")" : "TOK_BRACE_CLOSE_PAREN",
     "{" : "TOK_BRACE_OPEN_CURLEY",
     "}" : "TOK_BRACE_CLOSE_CURLEY",
+    "[" : "TOK_BRACE_OPEN_SQUARE",
+    "]" : "TOK_BRACE_CLOSE_SQUARE",
 };
 
 

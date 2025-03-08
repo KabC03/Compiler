@@ -29,4 +29,6 @@ const string tokens[] = {
 	")",      //24 :: TOK_BRACE_CLOSE_PAREN
 	"{",      //25 :: TOK_BRACE_OPEN_CURLEY
 	"}",      //26 :: TOK_BRACE_CLOSE_CURLEY
+	"[",      //27 :: TOK_BRACE_OPEN_SQUARE
+	"]",      //28 :: TOK_BRACE_CLOSE_SQUARE
 };

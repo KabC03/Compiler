@@ -14,48 +14,70 @@
 //NOTE: Should use macro to load immediate to register, mark as unused first
 
 
-//Request register and save data
+
+
+vector<RegisterItem> register_init(void) {
+
+    vector<RegisterItem> registers;
+    registers.resize(ARCH_NUM_GP_REGISTERS);
+
+    return registers;
+}
+
 size_t register_request(vector<RegisterItem> registerFile) {
 
-    //Check for unmarked register
-    for(size_t i = 0; i < registerFile.size(); i++) {
+    //Check for unused space
+    for(size_t i = 1; i < registerFile.size(); i++) {
         if(registerFile[i].isFree == true) {
             return i;
         }
     }
 
-    //Get LRU
-    size_t lruIndex = 0;
+
+    //Find least used register
+    size_t lrrIndex = 0;
     for(size_t i = 0; i < registerFile.size(); i++) {
-        if(registerFile[lruIndex].timesUsed > registerFile[i].timesUsed) {
-            lruIndex = i;
+        if(registerFile[lrrIndex].variableMetadata.timesUsed > registerFile[i].variableMetadata.timesUsed) {
+            lrrIndex = i;
         }
     }
 
-    if(registerFile[index].isFree == true) {
-        registerFile[index].isFree = false;
-    } else if(registerFile[index].variableMetadata.updated == false) { //Check if variable is not updated in stack
-        //Save variable from stack
-        ARCH_SAVE_VAR_STACK(registerFile[index].variableMetadata.stackOffset, index); //Save register -> stack
+    //Save LRR if not updated
+    if(registerFile[lrrIndex].variableMetadata.isUpdated == false) {
+        ARCH_SAVE_VAR_TO_STACK(lrrIndex, registerFile[lrrIndex].variableMetadata.stackOffset);
     }
-    return index;
+    return lrrIndex;
 }
 
-//Mark a register as free
 void register_mark_used(vector<RegisterItem> registerFile, size_t index) {
-
     registerFile[index].isFree = false;
-
     return;
 }
-
-//Mark a register as free
 void register_mark_free(vector<RegisterItem> registerFile, size_t index) {
-
     registerFile[index].isFree = true;
-
     return;
 }
+
+void register_load_var_to_reg(vector<RegisterItem> &registerFile, size_t registerIndex, VariableMetadata &variable, bool isUpdated) {
+
+    registerFile[registerIndex].variableMetadata = variable; 
+    if(isUpdated == false) { //If doing a reassignment and this is the destination (where its not just read)
+        registerFile[registerIndex].variableMetadata.isUpdated = false;
+    }
+
+
+    return; 
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,6 +2,8 @@
 #include <sstream>
 #include "tokenise.h++"
 #include "parse.h++"
+#include "registers.h++"
+
 
 int main(void) {
 
@@ -18,11 +20,12 @@ int main(void) {
     string text = buffer.str();
 
 
-
+    /*
     if(parse(text) == false) {
         cout << "Parser error" << endl;
         return 1;
     }
+    */
 
 
     cout << "Compilation complete" << endl;
