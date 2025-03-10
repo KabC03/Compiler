@@ -6,7 +6,7 @@ fn int name(int x, float y)
 
 ]
 {
-
+    call x = foo();
 
 }
 

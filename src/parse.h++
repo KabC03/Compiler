@@ -9,6 +9,7 @@
 #include <tuple>
 #include "tokenise.h++"
 #include "architecture.h++"
+#include "registers.h++"
 #include "compiler_structures.h++"
 
 

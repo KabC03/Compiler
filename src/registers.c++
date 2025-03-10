@@ -60,6 +60,9 @@ void register_mark_free(size_t index) {
 
 void register_load_var_to_reg(size_t registerIndex, VariableMetadata &variable, bool isUpdated) {
 
+
+
+    //Load variable
     registerFile[registerIndex].variableMetadata = variable; 
     if(isUpdated == false) { //If doing a reassignment and this is the destination (where its not just read)
         registerFile[registerIndex].variableMetadata.isUpdated = false;
@@ -69,9 +72,39 @@ void register_load_var_to_reg(size_t registerIndex, VariableMetadata &variable, 
     return; 
 }
 
+tuple<bool, size_t> register_var_is_in_register(VariableMetadata &variable) {
+    //Check if variable is already in register
+    for(size_t i = 0; i < registerFile.size(); i++) {
+        if(registerFile[i].variableMetadata.stackOffset == variable.stackOffset && registerFile[i].isFree == false) { 
+            //If they have the same stack offset they are the same var
+            return make_tuple(true, i);
+        }
+    }
+
+    return make_tuple(false, 0);
+}
 
 
+//Load a variable to a register (if it doesnt exist return false)
+bool register_load_variable(Token &variableToken, VariableMetadata &variable, FunctionMetadata &FunctionMetadata) {
+    //TODO
+    return true;
+}
 
+
+//Prepare R0 for a return value
+void register_init_return_register(VariableMetadata &variable) {
+
+    tuple<bool, size_t> isInRegisterTuple = register_var_is_in_register(variable);
+    if(get<0>(isInRegisterTuple) == true) { //If variable is in register remove it
+        //Copy R0 -> variable Register
+        registerFile[get<1>(isInRegisterTuple)].isFree = true;
+        registerFile[get<1>(isInRegisterTuple)].variableMetadata.isUpdated = false; //No longer matches stack value
+    }
+    registerFile[PARSE_RETURN_REGISTER_NUMBER].variableMetadata = variable;
+
+    return;
+}
 
 
 
