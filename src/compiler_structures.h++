@@ -8,6 +8,7 @@
 #include <string>
 #include <stack>
 #include <tuple>
+#include "architecture.h++"
 #define HERE cout << "\n\nHERE\n\n" << endl;
 
 
@@ -31,8 +32,9 @@ typedef struct VariableMetadata {
 typedef struct FunctionMetadata { //Information about the current function scope
 
     unordered_map<string, VariableMetadata> variableMap; //Known variables
-    size_t stackTop; //Current stack pointer
+    unordered_set<string> knownLabels; //Known labels
     TOKEN_ENUM returnType; //Return type of function
+    unordered_map<size_t, VariableMetadata*>argMap; //Map order of declaration to a stack address
 
 } FunctionMetadata;
 

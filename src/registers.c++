@@ -85,8 +85,23 @@ tuple<bool, size_t> register_var_is_in_register(VariableMetadata &variable) {
 }
 
 
+bool register_bind_variable(VariableMetadata &variable, size_t registerIndex) {
+
+    //If variable is already in register then remove it
+    for(size_t i = 0; i < registerFile.size(); i++) {
+        if(registerFile[i].variableMetadata.stackOffset == variable.stackOffset && registerFile[i].isFree == false) {
+            registerFile[i].isFree = true;
+        }
+    }
+
+    registerFile[registerIndex].variableMetadata = variable;
+    return true;
+}
+
+
+
 //Load a variable to a register (if it doesnt exist return false)
-bool register_load_variable(Token &variableToken, VariableMetadata &variable, FunctionMetadata &FunctionMetadata) {
+size_t register_load_variable(VariableMetadata &variable, FunctionMetadata &FunctionMetadata) {
     //TODO
     return true;
 }
@@ -101,7 +116,7 @@ void register_init_return_register(VariableMetadata &variable) {
         registerFile[get<1>(isInRegisterTuple)].isFree = true;
         registerFile[get<1>(isInRegisterTuple)].variableMetadata.isUpdated = false; //No longer matches stack value
     }
-    registerFile[PARSE_RETURN_REGISTER_NUMBER].variableMetadata = variable;
+    registerFile[ARCH_RETURN_REGISTER_NUMBER].variableMetadata = variable;
 
     return;
 }

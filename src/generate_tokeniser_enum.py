@@ -5,22 +5,28 @@ fileName = "./src/tokens";
 specifiers = [
 
     "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM","TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
-    "TOK_TYPE_INT", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
+    "TOK_TYPE_INT", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
     #TOK_INVALID is used to indicate failure
 ];
 tokens = {
     # Keywords
-        #Types
+        #Operands
     "char" : "TOK_KEYWORD_CHAR",
     "int" : "TOK_KEYWORD_INT", 
     "float" : "TOK_KEYWORD_FLOAT",
+    "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
+    "set" : "TOK_KEYWORD_SET",
+        #Type specifiers
+    "reg" : "TOK_KEYWORD_REG", #Tell compiler to pass a variable with a register using function call
 
         #Control flow
     "while" : "TOK_KEYWORD_WHILE", 
     "if" : "TOK_KEYWORD_IF", 
     "elif" : "TOK_KEYWORD_ELIF", 
     "else" : "TOK_KEYWORD_ELSE", 
+    "goto" : "TOK_KEYWORD_GOTO",
+    "label" : "TOK_KEYWORD_LABEL",
 
         #Functions
     "call" : "TOK_KEYWORD_CALL",
@@ -28,17 +34,18 @@ tokens = {
     "return" : "TOK_KEYWORD_RETURN",
 
     # Symbols
+
     "+" : "TOK_SYMBOL_PLUS",
     "-" : "TOK_SYMBOL_MINUS",
     "*" : "TOK_SYMBOL_MUL",
     "/" : "TOK_SYMBOL_DIV",
 
-    "==" : "TOK_SYMBOL_EQUALS",
+    "==" : "TOK_SYMBOL_EQ",
     "!=" : "TOK_SYMBOL_NEQ",
     ">=" : "TOK_SYMBOL_GREQ",
     "<=" : "TOK_SYMBOL_LEQ",
-    ">" : "TOK_SYMBOL_GREATER",
-    "<" : "TOK_SYMBOL_LESS",
+    ">" : "TOK_SYMBOL_GRE",
+    "<" : "TOK_SYMBOL_LES",
 
     "," : "TOK_SYMBOL_COMMA",
     ";" : "TOK_SEMICOLON",

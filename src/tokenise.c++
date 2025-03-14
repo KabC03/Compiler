@@ -1,17 +1,20 @@
 #include "tokenise.h++"
 
 unordered_map<string, TOKEN_ENUM> tokenMap;
-
+size_t lineNumber = 1;
 
 
 void tokenise_print(Token &token) {
 
-    cout << "Token ID: " << token.tokenID << " | Token String: " << token.tokenString << endl;
+    if(token.tokenID >= 0) {
+        cout << "keyword: '" << tokens[token.tokenID] << "' on line: " << lineNumber;
 
+    } else {
+        cout << "literal: '" << token.tokenString << "' on line: " << lineNumber;
+    }
 
     return;
 }
-
 
 
 
@@ -33,7 +36,7 @@ void tokenise_init(void) {
 //Request a token from line -> token
 Token tokenise_request(string &line) {
 
-    static int index = 0; //Index into current line
+    static size_t index = 0; //Index into current line
     //Return the token immediatly upon finding it
 
     string buffer = "";
@@ -42,17 +45,21 @@ Token tokenise_request(string &line) {
     token.tokenID = TOK_INVALID;
 
     TOKEN_ENUM last = TOK_INVALID;
-    int saveIndex = index;
+    size_t saveIndex = index;
     while(index <= line.length()) {
         char currentChar = line[index];
         switch(state) {
             case STATE_START: {
                 
                 index++;
+                if(currentChar == '\n') {
+                    lineNumber++;
+
+                }
                 if(currentChar == '\'') {
 
                     //state = STATE_CHAR_IMM;
-                    cout << "ERROR: Chars are not yet implemented" << endl;
+                    cout << "ERROR: Chars are not yet implemented, line " << lineNumber << endl;
                     token.tokenID = TOK_INVALID;
                     return token;
 
@@ -75,7 +82,7 @@ Token tokenise_request(string &line) {
                     return token;
                 } else {
                     //Unknown symbol
-                    cout << "ERROR: Unrecognised symbol '" << buffer << "'"  << endl;
+                    cout << "ERROR: Unrecognised symbol '" << buffer << "' on line " << lineNumber  << endl;
                     token.tokenID = TOK_INVALID;
                     return token;
                 }
@@ -93,7 +100,7 @@ Token tokenise_request(string &line) {
                     return token;
                     
                 } else if(buffer.length() >= 3) {
-                    cout << "ERROR: Char immediate " << buffer << "' may only contain one character" << endl;
+                    cout << "ERROR: Char immediate " << buffer << "' may only contain one character on line " << lineNumber << endl;
                     token.tokenID = TOK_INVALID;
                     return token;
                 }
@@ -176,7 +183,7 @@ Token tokenise_request(string &line) {
                         index = saveIndex;
                         return token;
                     } else { //No symbol found
-                        cout << "ERROR: Invalid symbol '" << buffer << "'"  << endl;
+                        cout << "ERROR: Invalid symbol '" << buffer << "' on line " << lineNumber << endl;
                         token.tokenID = TOK_INVALID;
                         //ERROR
                         return token;
