@@ -14,8 +14,11 @@ size_t architecture_get_datatype_size(TOKEN_ENUM dataType);
 #define ARCH_SIZE_DATATYPE_INT 4
 #define ARCH_SIZE_DATATYPE_FLOAT 4
 #define ARCH_SIZE_DATATYPE_PTR 4
-#define PARSE_ENTRYPOINT "main" //Name of main function
 #define ARCH_RETURN_REGISTER_NUMBER 0 //Functions return to R0
+#define PARSE_ENTRYPOINT "main" //Name of main function
+#define PARSE_WHILE_START_PREFIX "while_start_"
+#define PARSE_WHILE_END_PREFIX "while_end_"
+
 
 
 

@@ -21,6 +21,16 @@
 unordered_map<string, FunctionMetadata> knownFunctions;
 bool mainIsDeclared = false;
 
+//Handle conditionals
+bool internal_compare(string &text, FunctionMetadata &functionMetadat, stack<size_t> jumpAddress) {
+
+    return true;
+}
+bool internal_parse_if(string &text, FunctionMetadata &functionMetadata);
+
+
+
+
 
 //Call a function
 bool internal_parse_call(string &text, FunctionMetadata &functionMetadata) {
@@ -170,8 +180,113 @@ bool internal_declare_variables(string &text, FunctionMetadata &FunctionMetadata
     return true;
 }
 
+//Create a while loop
+bool internal_parse_while(string &text, FunctionMetadata &functionMetadata) {
 
+    static stack<size_t> whileLabelStack;
+    static stack<size_t> whileResetStack;
+    static size_t whileLoopCounter = 0;
+    if(internal_compare(text, functionMetadata, whileResetStack) == false) {
+        return false;
+    }
 
+    whileLabelStack.push(whileLoopCounter++);
+    Token currentToken = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_CURLEY);
+    currentToken = tokenise_request(text);
+    if(currentToken.tokenID == TOK_KEYWORD_IF) {
+        //if(x == 1) {...}
+        internal_parse_if(text, functionMetadata);
+    } else if(currentToken.tokenID == TOK_KEYWORD_WHILE) {
+        //while(x == 1) {...}
+        internal_parse_while(text, functionMetadata);
+    } else if(currentToken.tokenID == TOK_KEYWORD_CALL) {
+        //call foo[x,y,z];
+        internal_parse_call(text, functionMetadata);
+    } else if(currentToken.tokenID == TOK_KEYWORD_SET) {
+        //set x = &[x + 1];
+        if(internal_parse_set(text, functionMetadata) == false) {
+            return false;
+        }
+    } else if(currentToken.tokenID == TOK_KEYWORD_GOTO) {
+        //goto label;
+        if(internal_parse_goto(text, functionMetadata) == false) {
+            return false;
+        }
+    } else if(currentToken.tokenID == TOK_KEYWORD_LABEL) {
+        //label something;
+        if(internal_parse_label(text, functionMetadata) == false) {
+            return false;
+        }
+    } else {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", currentToken);
+    }
+    currentToken = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_CLOSE_CURLEY);
+
+    string gotoLabelEndName = PARSE_WHILE_END_PREFIX + to_string(whileLabelStack.top()); //Reset loop
+    whileLabelStack.pop();
+    ARCH_GOTO(gotoLabelEndName);
+
+    string gotoLabelResetName = PARSE_WHILE_END_PREFIX + to_string(whileResetStack.top()); //Jump out of loop
+    whileResetStack.pop();
+    ARCH_LABEL(gotoLabelResetName);
+
+    return true;
+}
+
+//Create an if/elif/else block
+bool internal_parse_if(string &text, FunctionMetadata &functionMetadata) {
+
+    static stack<size_t> ifStack;
+    static size_t ifCounter = 0;
+
+    if(internal_compare(text, functionMetadata, ifStack) == false) {
+        return false;
+    }
+    ifStack.push(ifCounter++);
+    Token currentToken = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_CURLEY);
+    currentToken = tokenise_request(text);
+    if(currentToken.tokenID == TOK_KEYWORD_IF) {
+        //if(x == 1) {...}
+        internal_parse_if(text, functionMetadata);
+    } else if(currentToken.tokenID == TOK_KEYWORD_WHILE) {
+        //while(x == 1) {...}
+        internal_parse_while(text, functionMetadata);
+    } else if(currentToken.tokenID == TOK_KEYWORD_CALL) {
+        //call foo[x,y,z];
+        internal_parse_call(text, functionMetadata);
+    } else if(currentToken.tokenID == TOK_KEYWORD_SET) {
+        //set x = &[x + 1];
+        if(internal_parse_set(text, functionMetadata) == false) {
+            return false;
+        }
+    } else if(currentToken.tokenID == TOK_KEYWORD_GOTO) {
+        //goto label;
+        if(internal_parse_goto(text, functionMetadata) == false) {
+            return false;
+        }
+    } else if(currentToken.tokenID == TOK_KEYWORD_LABEL) {
+        //label something;
+        if(internal_parse_label(text, functionMetadata) == false) {
+            return false;
+        }
+    } else {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", currentToken);
+    }
+    currentToken = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_CLOSE_CURLEY);
+    currentToken = tokenise_request(text);
+
+    string gotoLabelOut = PARSE_WHILE_END_PREFIX + to_string(ifStack.top()); //Jump out of loop
+    ifStack.pop();
+    ARCH_LABEL(gotoLabelOut);
+
+    return true;
+}
+
+//Declare a function
 bool internal_parse_function_declaration(string &text) {
     //fn int foo[reg int arg1, int arg2]
     FunctionMetadata newFunction;
@@ -197,15 +312,25 @@ bool internal_parse_function_declaration(string &text) {
     internal_declare_variables(text, newFunction, true); //Arguments
     internal_declare_variables(text, newFunction, false); //Local variables
 
+    if(functionNameToken.tokenString == PARSE_ENTRYPOINT) {
+        if(mainIsDeclared == true) {
+            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Redeclaration of main", functionNameToken);
+        }
+        mainIsDeclared = true;
+    }
+
     currentToken = tokenise_request(text);
     INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_CURLEY);
     currentToken = tokenise_request(text);
     if(currentToken.tokenID == TOK_KEYWORD_IF) {
         //if(x == 1) {...}
+        internal_parse_if(text, newFunction);
     } else if(currentToken.tokenID == TOK_KEYWORD_WHILE) {
         //while(x == 1) {...}
+        internal_parse_while(text, newFunction);
     } else if(currentToken.tokenID == TOK_KEYWORD_CALL) {
         //call foo[x,y,z];
+        internal_parse_call(text, newFunction);
     } else if(currentToken.tokenID == TOK_KEYWORD_SET) {
         //set x = &[x + 1];
         if(internal_parse_set(text, newFunction) == false) {
@@ -221,6 +346,8 @@ bool internal_parse_function_declaration(string &text) {
         if(internal_parse_label(text, newFunction) == false) {
             return false;
         }
+    } else {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", currentToken);
     }
     currentToken = tokenise_request(text);
     INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_CLOSE_CURLEY);
@@ -228,12 +355,9 @@ bool internal_parse_function_declaration(string &text) {
     return true;
 }
 
-
-
 void parse_init(void) {
     return;
 }
-
 
 bool parse_parse(string &text) {
 
@@ -248,6 +372,10 @@ bool parse_parse(string &text) {
 
     } else {
         INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Expect function declaration", startToken);
+    }
+    if(mainIsDeclared == false) {
+        cout << "ERROR: Expect declaration of main function" << endl;
+        return false;   
     }
 
     return true;
