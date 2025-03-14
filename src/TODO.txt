@@ -1,0 +1,7 @@
+registers.c++ -> size_t register_load_variable(VariableMetadata &variable, FunctionMetadata &FunctionMetadata)
+parse.c++ -> bool internal_compare(string &text, FunctionMetadata &functionMetadat, stack<size_t> &jumpAddress)
+expression_handling.c++ -> tuple<bool, size_t> expression_handling_lr_evaluation(string &text, FunctionMetadata &functionMetadata)
+architecture.c++ -> file output
+
+
+

@@ -21,16 +21,16 @@
 unordered_map<string, FunctionMetadata> knownFunctions;
 bool mainIsDeclared = false;
 
-//Handle conditionals
-bool internal_compare(string &text, FunctionMetadata &functionMetadat, stack<size_t> jumpAddress) {
+//TODO: Handle conditionals
+bool internal_compare(string &text, FunctionMetadata &functionMetadat, stack<size_t> &jumpAddress) {
+
+    //Evaluate if arg1 == arg2
+    //Write the relevent comparator in assembly
+    //Append the jump address to the stack
 
     return true;
 }
 bool internal_parse_if(string &text, FunctionMetadata &functionMetadata);
-
-
-
-
 
 //Call a function
 bool internal_parse_call(string &text, FunctionMetadata &functionMetadata) {
