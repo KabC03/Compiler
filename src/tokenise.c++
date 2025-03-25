@@ -4,6 +4,13 @@ unordered_map<string, TOKEN_ENUM> tokenMap;
 size_t lineNumber = 1;
 
 
+/* void tokenise_print(Token &token)
+ * @brief :: Print a token ID and string 
+ *
+ * @param :: Token &token :: Token to be printed 
+ *
+ * @return :: void
+ */
 void tokenise_print(Token &token) {
 
     if(token.tokenID >= 0) {
@@ -19,7 +26,13 @@ void tokenise_print(Token &token) {
 
 
 
-//Initialise tokeniser hashmap
+/* void tokenise_init(void)
+ * @brief :: Initialise the tokeniser library 
+ *
+ * @param :: void
+ *
+ * @return :: void
+ */
 void tokenise_init(void) {
 
     for(int i = 0; i < NUM_TOKENS; i++) { //Enum is strongly typed to hold int
@@ -33,7 +46,14 @@ void tokenise_init(void) {
 
 
 
-//Request a token from line -> token
+
+/* Token tokenise_request(string &line)
+ * @brief :: Extract a singular token from an input string statically
+ *
+ * @param :: string &line :: Line to tokenise from 
+ *
+ * @return :: Token :: Resulting token 
+ */
 Token tokenise_request(string &line) {
 
     static size_t index = 0; //Index into current line
@@ -133,6 +153,7 @@ Token tokenise_request(string &line) {
                 buffer.push_back(currentChar);
                 break;
             } case STATE_FLOAT_IMM: {
+                cout << "ERROR: Floats are not yet implemented, line " << lineNumber << endl;
                 if(isdigit(currentChar) == false) {
                     //Complete token
                     token.tokenID = TOK_FLOAT_IMM;

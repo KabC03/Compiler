@@ -4,8 +4,8 @@ import os;
 fileName = "./src/tokens";
 specifiers = [
 
-    "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM","TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
-    "TOK_TYPE_INT", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
+    "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM", "TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
+    "TOK_TYPE_INT", "TOK_TYPE_BYTE", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
     #TOK_INVALID is used to indicate failure
 ];
 tokens = {
@@ -13,6 +13,7 @@ tokens = {
         #Operands
     "char" : "TOK_KEYWORD_CHAR",
     "int" : "TOK_KEYWORD_INT", 
+    "byte" : "TOK_KEYWORD_BYTE",
     "float" : "TOK_KEYWORD_FLOAT",
     "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",

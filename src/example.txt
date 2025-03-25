@@ -1,11 +1,7 @@
-fn int name[int x, float y]
-[
-
-]
-{
-
-}
-
+fn int name[int arg1, byte arg2] [
+    int x,
+    byte y
+] {...}
 
 
 

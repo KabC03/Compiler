@@ -31,7 +31,7 @@ typedef struct VariableMetadata {
 
 typedef struct FunctionMetadata { //Information about the current function scope
 
-    unordered_map<string, VariableMetadata> variableMap; //Known variables
+    unordered_map<string, VariableMetadata> knownVariables; //Known variables
     unordered_set<string> knownLabels; //Known labels
     TOKEN_ENUM returnType; //Return type of function
     unordered_map<size_t, VariableMetadata*>argMap; //Map order of declaration to a stack address

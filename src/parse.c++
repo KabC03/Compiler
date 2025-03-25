@@ -5,7 +5,6 @@
     cout << "ERROR: " << str << ", '"; \
     tokenise_print(token); \
     cout << "'" << endl; \
-    return false; \
 }
 #define INTERNAL_MACRO_ASSERT_TOKEN(token, exp) { \
     if(token.tokenID != exp) { \
@@ -14,343 +13,41 @@
         cout << "' (" << exp << ") but found '"; \
         tokenise_print(token); \
         cout << "'" << endl; \
-        return false; \
     } \
 }
+
+#define INTERNAL_MACRO_IS_IN_MAP(item, map) \
+    ((map.find(item) == map.end()) ? false : true) \
+
 
 unordered_map<string, FunctionMetadata> knownFunctions;
 bool mainIsDeclared = false;
 
-//TODO: Handle conditionals
-bool internal_compare(string &text, FunctionMetadata &functionMetadat, stack<size_t> &jumpAddress) {
 
-    //Evaluate if arg1 == arg2
-    //Write the relevent comparator in assembly
-    //Append the jump address to the stack
-
-    return true;
-}
-bool internal_parse_if(string &text, FunctionMetadata &functionMetadata);
-
-//Call a function
-bool internal_parse_call(string &text, FunctionMetadata &functionMetadata) {
-
-    Token variableNameToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(variableNameToken, TOK_IDENTIFIER);
-    INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Invalid variable name", variableNameToken);
-    auto itV = functionMetadata.variableMap.find(variableNameToken.tokenString);
-    if(itV == functionMetadata.variableMap.end()) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised variable", variableNameToken);
-    }
-    Token functionNameToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(functionNameToken, TOK_IDENTIFIER);
-    //Push args to stack then call function
-    auto itF = knownFunctions.find(functionNameToken.tokenString);
-    if(itF == knownFunctions.end()) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised function", functionNameToken);
-    }
-
-    //Push args to stack
-    Token currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(functionNameToken, TOK_BRACE_OPEN_PAREN);
-    for(size_t argCount = 0; currentToken.tokenID != TOK_BRACE_CLOSE_PAREN; argCount++) {
-        auto itV2 = functionMetadata.variableMap.find(variableNameToken.tokenString);
-        if(itV2 == functionMetadata.variableMap.end()) {
-            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised variable", variableNameToken);
-        }
-        ARCH_PUSH_STACK(register_load_variable(itV2->second, functionMetadata), -functionMetadata.argMap[argCount]->stackOffset); //Push to stack at address
-        cout << "REMOVE THIS MESSAGE, it just stops the compiler complaining" << argCount << endl;
-        currentToken = tokenise_request(text);
-        INTERNAL_MACRO_ASSERT_TOKEN(functionNameToken, TOK_SYMBOL_COMMA);
-    }
-
-    INTERNAL_MACRO_ASSERT_TOKEN(functionNameToken, TOK_BRACE_CLOSE_PAREN);
-    ARCH_CALL(functionNameToken.tokenString);
-    //Bind register to variable
-    itV->second.isUpdated = false;
-    register_bind_variable(itV->second, ARCH_RETURN_REGISTER_NUMBER);
-
-    return true;
-}
-
-//Update a variable
-bool internal_parse_set(string &text, FunctionMetadata &functionMetadata) {
-
-    Token variableNameToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(variableNameToken, TOK_IDENTIFIER);
-    INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Invalid variable name", variableNameToken);
-    auto itV = functionMetadata.variableMap.find(variableNameToken.tokenString);
-    if(itV == functionMetadata.variableMap.end()) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised variable", variableNameToken);
-    }
-    tuple<bool, size_t> expressionResult = expression_handling_lr_evaluation(text, functionMetadata);
-    if(get<0>(expressionResult) == false) {
-        return false;
-    }
-    //Bind register to variable
-    itV->second.isUpdated = false;
-    register_bind_variable(itV->second, get<1>(expressionResult));
-
-    return true;
-}
-
-//Goto a label
-bool internal_parse_goto(string &text, FunctionMetadata &functionMetadata) {
-
-    Token labelNameToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(labelNameToken, TOK_IDENTIFIER);
-    INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Invalid label name", labelNameToken);
-    auto itL = functionMetadata.knownLabels.find(labelNameToken.tokenString);
-    if(itL == functionMetadata.knownLabels.end()) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised label", labelNameToken);
-    }
-    ARCH_GOTO(labelNameToken.tokenString);
-
-    return true;
-}
-
-//Declare a label
-bool internal_parse_label(string &text, FunctionMetadata &functionMetadata) {
-
-    Token labelNameToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(labelNameToken, TOK_IDENTIFIER);
-    INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Invalid label name", labelNameToken);
-    auto itL = functionMetadata.knownLabels.find(labelNameToken.tokenString);
-    if(itL != functionMetadata.knownLabels.end()) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Redeclaration of label", labelNameToken);
-    }
-    functionMetadata.knownLabels.insert(labelNameToken.tokenString);
-    ARCH_LABEL(labelNameToken.tokenString);
-
-    return true;
-}
-
-//Declare a variable
-bool internal_declare_variables(string &text, FunctionMetadata &FunctionMetadata, bool declaringLocalVars) {
-    //[int x = 10, int y = 0, reg float y = 0];
-
-    Token currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_SQUARE);
-    long int stackTop = 0;
-    vector<VariableMetadata*> variableStackVector;
-    currentToken = tokenise_request(text);
-    size_t argCount = 0;
-    while(currentToken.tokenID != TOK_BRACE_CLOSE_SQUARE) {
-
-        VariableMetadata newVariable;
-        if(currentToken.tokenID == TOK_KEYWORD_INT) {
-            newVariable.dataType = TOK_TYPE_INT;
-        } else if(currentToken.tokenID == TOK_KEYWORD_FLOAT) {
-            newVariable.dataType = TOK_TYPE_FLOAT;
-        } else if(currentToken.tokenID == TOK_KEYWORD_PTR) {
-            newVariable.dataType = TOK_TYPE_PTR;
-        } else {
-            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Invalid variable type", currentToken);
-        }
-        newVariable.isUpdated = false;
-        newVariable.timesUsed = 0;
-        Token variableNameToken = tokenise_request(text);
-        auto itV = FunctionMetadata.variableMap.find(variableNameToken.tokenString);
-        if(itV != FunctionMetadata.variableMap.end()) {
-            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Redeclaration of variable", variableNameToken);
-        }
-        FunctionMetadata.variableMap[variableNameToken.tokenString] = newVariable;
-        variableStackVector.push_back(&FunctionMetadata.variableMap[variableNameToken.tokenString]);
-        currentToken = tokenise_request(text);
-        if(currentToken.tokenID == TOK_BRACE_CLOSE_SQUARE) {
-            return true;
-        }
-        INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_SYMBOL_COMMA);
-        currentToken = tokenise_request(text);
-        FunctionMetadata.argMap[argCount] = &FunctionMetadata.variableMap[variableNameToken.tokenString];
-        argCount++;
-    }
-    //Stack variables efficiently by sorting the vector then writing stack addresses
-    std::sort(variableStackVector.begin(), variableStackVector.end(), [](const VariableMetadata* lhs, const VariableMetadata* rhs) {
-        return architecture_get_datatype_size(lhs->dataType) < architecture_get_datatype_size(rhs->dataType);
-    });
-    for(size_t i = 0; i < variableStackVector.size(); i++) { //Update stack offset in variable map
-        if(declaringLocalVars == true) {
-            stackTop += architecture_get_datatype_size(variableStackVector[i]->dataType) % stackTop; //Pad the stack pointer
-        } else {
-            stackTop -= architecture_get_datatype_size(variableStackVector[i]->dataType) % stackTop; //Pad the stack pointer
-        }
-        variableStackVector[i]->stackOffset = stackTop; //Store the stack offset
-    }
-    return true;
-}
-
-//Create a while loop
-bool internal_parse_while(string &text, FunctionMetadata &functionMetadata) {
-
-    static stack<size_t> whileLabelStack;
-    static stack<size_t> whileResetStack;
-    static size_t whileLoopCounter = 0;
-    if(internal_compare(text, functionMetadata, whileResetStack) == false) {
-        return false;
-    }
-
-    whileLabelStack.push(whileLoopCounter++);
-    Token currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_CURLEY);
-    currentToken = tokenise_request(text);
-    if(currentToken.tokenID == TOK_KEYWORD_IF) {
-        //if(x == 1) {...}
-        internal_parse_if(text, functionMetadata);
-    } else if(currentToken.tokenID == TOK_KEYWORD_WHILE) {
-        //while(x == 1) {...}
-        internal_parse_while(text, functionMetadata);
-    } else if(currentToken.tokenID == TOK_KEYWORD_CALL) {
-        //call foo[x,y,z];
-        internal_parse_call(text, functionMetadata);
-    } else if(currentToken.tokenID == TOK_KEYWORD_SET) {
-        //set x = &[x + 1];
-        if(internal_parse_set(text, functionMetadata) == false) {
-            return false;
-        }
-    } else if(currentToken.tokenID == TOK_KEYWORD_GOTO) {
-        //goto label;
-        if(internal_parse_goto(text, functionMetadata) == false) {
-            return false;
-        }
-    } else if(currentToken.tokenID == TOK_KEYWORD_LABEL) {
-        //label something;
-        if(internal_parse_label(text, functionMetadata) == false) {
-            return false;
-        }
-    } else {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", currentToken);
-    }
-    currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_CLOSE_CURLEY);
-
-    string gotoLabelEndName = PARSE_WHILE_END_PREFIX + to_string(whileLabelStack.top()); //Reset loop
-    whileLabelStack.pop();
-    ARCH_GOTO(gotoLabelEndName);
-
-    string gotoLabelResetName = PARSE_WHILE_END_PREFIX + to_string(whileResetStack.top()); //Jump out of loop
-    whileResetStack.pop();
-    ARCH_LABEL(gotoLabelResetName);
-
-    return true;
-}
-
-//Create an if/elif/else block
-bool internal_parse_if(string &text, FunctionMetadata &functionMetadata) {
-
-    static stack<size_t> ifStack;
-    static size_t ifCounter = 0;
-
-    if(internal_compare(text, functionMetadata, ifStack) == false) {
-        return false;
-    }
-    ifStack.push(ifCounter++);
-    Token currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_CURLEY);
-    currentToken = tokenise_request(text);
-    if(currentToken.tokenID == TOK_KEYWORD_IF) {
-        //if(x == 1) {...}
-        internal_parse_if(text, functionMetadata);
-    } else if(currentToken.tokenID == TOK_KEYWORD_WHILE) {
-        //while(x == 1) {...}
-        internal_parse_while(text, functionMetadata);
-    } else if(currentToken.tokenID == TOK_KEYWORD_CALL) {
-        //call foo[x,y,z];
-        internal_parse_call(text, functionMetadata);
-    } else if(currentToken.tokenID == TOK_KEYWORD_SET) {
-        //set x = &[x + 1];
-        if(internal_parse_set(text, functionMetadata) == false) {
-            return false;
-        }
-    } else if(currentToken.tokenID == TOK_KEYWORD_GOTO) {
-        //goto label;
-        if(internal_parse_goto(text, functionMetadata) == false) {
-            return false;
-        }
-    } else if(currentToken.tokenID == TOK_KEYWORD_LABEL) {
-        //label something;
-        if(internal_parse_label(text, functionMetadata) == false) {
-            return false;
-        }
-    } else {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", currentToken);
-    }
-    currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_CLOSE_CURLEY);
-    currentToken = tokenise_request(text);
-
-    string gotoLabelOut = PARSE_WHILE_END_PREFIX + to_string(ifStack.top()); //Jump out of loop
-    ifStack.pop();
-    ARCH_LABEL(gotoLabelOut);
-
-    return true;
-}
-
-//Declare a function
 bool internal_parse_function_declaration(string &text) {
-    //fn int foo[reg int arg1, int arg2]
+
+    Token returnTypeToken = tokenise_request(text);
     FunctionMetadata newFunction;
-    //Expect return type
-    Token currentToken = tokenise_request(text);
-    if(currentToken.tokenID == TOK_KEYWORD_INT) {
+    if(returnTypeToken.tokenID == TOK_KEYWORD_INT) {
         newFunction.returnType = TOK_TYPE_INT;
-    } else if(currentToken.tokenID == TOK_KEYWORD_FLOAT) {
-        newFunction.returnType = TOK_TYPE_FLOAT;
-    } else if(currentToken.tokenID == TOK_KEYWORD_PTR) {
-        newFunction.returnType = TOK_TYPE_PTR;
+    } else if(returnTypeToken.tokenID == TOK_KEYWORD_BYTE) {
+        newFunction.returnType = TOK_TYPE_BYTE;
     } else {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Invalid function return type", currentToken);
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Expect valid function return type", returnTypeToken);
+        return false;
     }
-
-    //Function name
     Token functionNameToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(functionNameToken, TOK_IDENTIFIER);
-    auto itF = knownFunctions.find(functionNameToken.tokenString);
-    if(itF != knownFunctions.end()) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Redeclaration of function", functionNameToken);
+    if(INTERNAL_MACRO_IS_IN_MAP(functionNameToken.tokenString, knownFunctions) == true) {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Function redeclaration", functionNameToken);
+        return false;
     }
-    internal_declare_variables(text, newFunction, true); //Arguments
-    internal_declare_variables(text, newFunction, false); //Local variables
-
     if(functionNameToken.tokenString == PARSE_ENTRYPOINT) {
-        if(mainIsDeclared == true) {
-            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Redeclaration of main", functionNameToken);
-        }
         mainIsDeclared = true;
     }
 
-    currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_OPEN_CURLEY);
-    currentToken = tokenise_request(text);
-    if(currentToken.tokenID == TOK_KEYWORD_IF) {
-        //if(x == 1) {...}
-        internal_parse_if(text, newFunction);
-    } else if(currentToken.tokenID == TOK_KEYWORD_WHILE) {
-        //while(x == 1) {...}
-        internal_parse_while(text, newFunction);
-    } else if(currentToken.tokenID == TOK_KEYWORD_CALL) {
-        //call foo[x,y,z];
-        internal_parse_call(text, newFunction);
-    } else if(currentToken.tokenID == TOK_KEYWORD_SET) {
-        //set x = &[x + 1];
-        if(internal_parse_set(text, newFunction) == false) {
-            return false;
-        }
-    } else if(currentToken.tokenID == TOK_KEYWORD_GOTO) {
-        //goto label;
-        if(internal_parse_goto(text, newFunction) == false) {
-            return false;
-        }
-    } else if(currentToken.tokenID == TOK_KEYWORD_LABEL) {
-        //label something;
-        if(internal_parse_label(text, newFunction) == false) {
-            return false;
-        }
-    } else {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", currentToken);
-    }
-    currentToken = tokenise_request(text);
-    INTERNAL_MACRO_ASSERT_TOKEN(currentToken, TOK_BRACE_CLOSE_CURLEY);
+    
+
+
     knownFunctions[functionNameToken.tokenString] = newFunction;
     return true;
 }
@@ -372,6 +69,7 @@ bool parse_parse(string &text) {
 
     } else {
         INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Expect function declaration", startToken);
+        return false;
     }
     if(mainIsDeclared == false) {
         cout << "ERROR: Expect declaration of main function" << endl;
