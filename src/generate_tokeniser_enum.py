@@ -68,7 +68,10 @@ tokens = {
 
 
 
-
+"""
+    @brief :: Generate tokens.c++ and tokens.h++ for tokeniser structure
+              based on supplied tokens[] and specifiers[] in this file
+"""
 def main() -> int:
 
     largestKeyLength = len(max(tokens.keys(), key=len));

@@ -9,7 +9,6 @@ int main(void) {
 
     tokenise_init();
     register_init();
-    parse_init();
 
 
     string fileName = "./src/example.txt";

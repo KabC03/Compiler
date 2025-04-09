@@ -27,7 +27,7 @@ void register_init(void) {
 size_t register_request(void) {
 
     //Check for unused space
-    for(size_t i = 1; i < registerFile.size(); i++) {
+    for(size_t i = 0; i < registerFile.size(); i++) {
         if(registerFile[i].isFree == true) {
             return i;
         }

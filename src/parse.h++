@@ -17,10 +17,6 @@
 
 using namespace std;
 
-
-
-
-void parse_init(void);
 bool parse_parse(string &text);
 
 
