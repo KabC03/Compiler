@@ -1,7 +1,27 @@
 
+#
+This is a comment
 
+Keywords:
+ int, fn, while, if, goto, label
+#
 
-fn name[int x, int y, int z]
+#This function foo() takes in x and returns a local y#
+fn foo[int x] [int a, int b, int y] -> y {
+
+    a = 0;
+    b = 7;
+
+    label reset;
+    while(a == 0) {
+        bar(b) -> a;
+    }
+    if(a == 0) {
+        a = 1 + b;
+        goto reset;
+    }
+    y = 2;
+}
 
 
 

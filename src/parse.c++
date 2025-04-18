@@ -13,7 +13,7 @@ bool mainIsDeclared = false;
  *
  */
 #define INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR(str, token) { \
-    cout << "ERROR: " << str << ", '"; \
+    cout << "ERROR: " << str << ", but found '"; \
     tokenise_print(token); \
     cout << "'" << endl; \
 }
@@ -62,33 +62,9 @@ bool mainIsDeclared = false;
  * @return :: bool :: Indication of success/failure in parsing
  */
 bool internal_parse_function_declaration(string &text) {
-    //fn int name[...args...] [...locals...] {...code...}
 
-    //Return type
-    Token returnTypeToken = tokenise_request(text);
-    FunctionMetadata newFunction;
-    if(returnTypeToken.tokenID == TOK_KEYWORD_INT) {
-        newFunction.returnType = TOK_TYPE_INT;
-    } else if(returnTypeToken.tokenID == TOK_KEYWORD_BYTE) {
-        newFunction.returnType = TOK_TYPE_BYTE;
-    } else {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Expect valid function return type", returnTypeToken);
-        return false;
-    }
-    //Function name
-    Token functionNameToken = tokenise_request(text);
-    if(INTERNAL_MACRO_IS_IN_MAP(functionNameToken.tokenString, knownFunctions) == true) {
-        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Function redeclaration", functionNameToken);
-        return false;
-    }
-    if(functionNameToken.tokenString == PARSE_ENTRYPOINT) {
-        mainIsDeclared = true;
-    }
-    //Args
     
 
-
-    knownFunctions[functionNameToken.tokenString] = newFunction;
     return true;
 }
 

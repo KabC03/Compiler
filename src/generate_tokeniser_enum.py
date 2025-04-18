@@ -4,28 +4,25 @@ import os;
 fileName = "./src/tokens";
 specifiers = [
 
-    "TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM", "TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
-    "TOK_TYPE_INT", "TOK_TYPE_BYTE", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
+    #"TOK_FLOAT_IMM", "TOK_INT_IMM", "TOK_CHAR_IMM", "TOK_STRING_IMM", "TOK_IDENTIFIER", "TOK_INVALID", "TOK_EOF",
+    #"TOK_TYPE_INT", "TOK_TYPE_BYTE", "TOK_TYPE_FLOAT", "TOK_TYPE_PTR", "TOK_TYPE_PTR_REF", "TOK_TYPE_PTR_DEREF",
+
+    "TOK_TYPE_INT", "TOK_TYPE_INT_IMM", "TOK_TYPE_PTR", "TOK_IDENTIFIER",
+    "TOK_INVALID", "TOK_EOF",
+
     #TOK_INVALID is used to indicate failure
 ];
 tokens = {
+
     # Keywords
         #Operands
-    "char" : "TOK_KEYWORD_CHAR",
-    "int" : "TOK_KEYWORD_INT", 
-    "byte" : "TOK_KEYWORD_BYTE",
-    "float" : "TOK_KEYWORD_FLOAT",
+    "int" : "TOK_KEYWORD_INT",
     "ptr" : "TOK_KEYWORD_PTR",
     "=" : "TOK_SYMBOL_ASSIGNMENT",
-    "set" : "TOK_KEYWORD_SET",
-        #Type specifiers
-    "reg" : "TOK_KEYWORD_REG", #Tell compiler to pass a variable with a register using function call
 
         #Control flow
     "while" : "TOK_KEYWORD_WHILE", 
     "if" : "TOK_KEYWORD_IF", 
-    "elif" : "TOK_KEYWORD_ELIF", 
-    "else" : "TOK_KEYWORD_ELSE", 
     "goto" : "TOK_KEYWORD_GOTO",
     "label" : "TOK_KEYWORD_LABEL",
 
@@ -52,7 +49,7 @@ tokens = {
     ";" : "TOK_SEMICOLON",
 
         #Pointers
-    "#" : "TOK_SYMBOL_REFERENCE",
+    "$" : "TOK_SYMBOL_REFERENCE",
     "@" : "TOK_SYMBOL_DEREFERENCE",
 
         # Braces
@@ -62,6 +59,9 @@ tokens = {
     "}" : "TOK_BRACE_CLOSE_CURLEY",
     "[" : "TOK_BRACE_OPEN_SQUARE",
     "]" : "TOK_BRACE_CLOSE_SQUARE",
+
+        #Comment
+    "#" : "TOK_SYMBOL_COMMENT", #Must be 1 char long
 };
 
 

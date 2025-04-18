@@ -22,7 +22,6 @@ int main(void) {
     buffer << file.rdbuf();
     string text = buffer.str();
 
-
     if(parse_parse(text) == false) {
         cout << "Parser error" << endl;
         return 1;

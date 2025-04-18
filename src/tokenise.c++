@@ -70,12 +70,13 @@ Token tokenise_request(string &line) {
         char currentChar = line[index];
         switch(state) {
             case STATE_START: {
-                
                 index++;
                 if(currentChar == '\n') {
                     lineNumber++;
-
                 }
+
+
+
                 if(currentChar == '\'') {
 
                     //state = STATE_CHAR_IMM;
@@ -85,6 +86,11 @@ Token tokenise_request(string &line) {
 
                 } else if(currentChar == '"') {
                     state = STATE_STRING_IMM;
+
+                } else if(currentChar == tokens[TOK_SYMBOL_COMMENT][0]) {
+                    state = STATE_COMMENT;
+                    continue;
+
                 } else if(currentChar == '.') {
                     buffer.push_back('0');
                     state = STATE_FLOAT_IMM;
@@ -109,12 +115,27 @@ Token tokenise_request(string &line) {
                 buffer.push_back(currentChar);
                 break;
             
+            } case STATE_COMMENT: {
+                index++;
+                if(currentChar == tokens[TOK_SYMBOL_COMMENT][0]) {
+                    state = STATE_START;
+
+                } else if(currentChar == '\n') {
+                    lineNumber++;
+    
+                } else {
+                    continue;
+                }
+                break;
             } case STATE_CHAR_IMM: {
 
                 buffer.push_back(currentChar);
                 if(currentChar == '\'') {
                     //Complete token
-                    token.tokenID = TOK_CHAR_IMM;
+
+                    //token.tokenID = TOK_CHAR_IMM;
+                    token.tokenID = TOK_INVALID; //TEMPORARY
+
                     token.tokenString = buffer;
                     //cout << "Char immediate found" << endl;
                     return token;
@@ -131,7 +152,9 @@ Token tokenise_request(string &line) {
                 buffer.push_back(currentChar);
                 if(currentChar == '"') {
                     //Complete token
-                    token.tokenID = TOK_STRING_IMM;
+                    //token.tokenID = TOK_STRING_IMM;
+                    token.tokenID = TOK_INVALID; //TEMPORARY
+
                     token.tokenString = buffer;
                     //cout << "String immediate found" << endl;
                     return token;
@@ -144,7 +167,7 @@ Token tokenise_request(string &line) {
 
                 } else if(isdigit(currentChar) == false) {
                     //Complete token
-                    token.tokenID = TOK_INT_IMM;
+                    token.tokenID = TOK_TYPE_INT_IMM;
                     token.tokenString = buffer;
                     //cout << "Integer immediate found" << endl;
                     return token;
@@ -154,9 +177,12 @@ Token tokenise_request(string &line) {
                 break;
             } case STATE_FLOAT_IMM: {
                 cout << "ERROR: Floats are not yet implemented, line " << lineNumber << endl;
+                exit(1);
                 if(isdigit(currentChar) == false) {
                     //Complete token
-                    token.tokenID = TOK_FLOAT_IMM;
+                    //token.tokenID = TOK_FLOAT_IMM;
+                    token.tokenID = TOK_INVALID; //TEMPORARY
+
                     token.tokenString = buffer;
                     //cout << "Float immediate found" << endl;
                     return token;
