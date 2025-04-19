@@ -51,8 +51,61 @@ bool mainIsDeclared = false;
 
 
 
+/* bool internal_parse_if(string &text)
+ * @brief :: Parse an if statement
+ *
+ * @param :: string &text :: Source code text
+ *
+ * @return :: bool :: Indication of success/failure in parsing
+ */
+bool internal_parse_if(string &text) {
+    //if(a == b) {...}
+    
 
+    return true;
+}
 
+/* bool internal_parse_while(string &text)
+ * @brief :: Parse a while loop
+ *
+ * @param :: string &text :: Source code text
+ *
+ * @return :: bool :: Indication of success/failure in parsing
+ */
+bool internal_parse_while(string &text) {
+    //while(a == b) {...}
+    
+
+    return true;
+}
+
+/* bool internal_parse_label_declaration(string &text)
+ * @brief :: Parse a label declaration
+ *
+ * @param :: string &text :: Source code text
+ *
+ * @return :: bool :: Indication of success/failure in parsing
+ */
+bool internal_parse_label_declaration(string &text) {
+    //label x;
+    
+
+    return true;
+}
+
+/* bool internal_parse_goto(string &text)
+ * @brief :: Parse a goto statement
+ *
+ * @param :: string &text :: Source code text
+ *
+ * @return :: bool :: Indication of success/failure in parsing
+ */
+bool internal_parse_goto(string &text) {
+    //goto x;
+    
+
+    return true;
+}
 
 /* bool internal_parse_function_declaration(string &text)
  * @brief :: Parse a function declaration
@@ -68,9 +121,33 @@ bool internal_parse_function_declaration(string &text) {
     return true;
 }
 
+/* bool internal_parse_call(string &text)
+ * @brief :: Parse an call statement
+ *
+ * @param :: string &text :: Source code text
+ *
+ * @return :: bool :: Indication of success/failure in parsing
+ */
+bool internal_parse_call(string &text) {
+    //call foo(args) -> x
+    
 
+    return true;
+}
 
+/* bool internal_parse_assignment(string &text)
+ * @brief :: Parse an assignment
+ *
+ * @param :: string &text :: Source code text
+ *
+ * @return :: bool :: Indication of success/failure in parsing
+ */
+bool internal_parse_assignment(string &text) {
+    //call foo(args) -> x
+    
 
+    return true;
+}
 
 
 

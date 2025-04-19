@@ -36,6 +36,7 @@ typedef struct FunctionMetadata { //Information about the current function scope
     TOKEN_ENUM returnType; //Return type of function
     unordered_map<size_t, VariableMetadata*>argMap; //Map order of declaration to a stack address
 
+    stack<size_t> ifLabelStack; //Label addresses for if statements
 } FunctionMetadata;
 
 typedef struct RegisterItem {
