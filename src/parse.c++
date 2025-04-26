@@ -50,6 +50,79 @@ bool mainIsDeclared = false;
 
 
 
+//Call the relevent parser function from a token
+bool internal_helper_call_parser_function(Token &token) {
+    switch(token.tokenID) {
+        case TOK_KEYWORD_CALL: {
+            break;
+        } case TOK_KEYWORD_GOTO: {
+            break;
+        } case TOK_KEYWORD_IF: {
+            break;
+        } case TOK_KEYWORD_INT: {
+            break;
+        } case TOK_KEYWORD_LABEL: {
+            break;
+        } case TOK_KEYWORD_RETURN: {
+            break;
+        } case TOK_KEYWORD_WHILE: {
+            break;
+        } default: {
+            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", token);
+            return false;
+            break;
+        }
+    }
+    return true;
+}
+
+
+
+
+
+//Declare a variable
+bool internal_declare_variables(string &text, unordered_map<string, VariableMetadata> mapToAppend, unordered_map<string, VariableMetadata> mapWithClash) {
+
+    Token token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_OPEN_SQUARE);
+
+    token = tokenise_request(text);
+    long long int stackOffset = 0;
+    while(token.tokenID != TOK_BRACE_CLOSE_SQUARE) {
+        VariableMetadata newVariable; newVariable.isUpdated = false; newVariable.timesUsed = 0;
+        token = tokenise_request(text);
+        if(token.tokenID == TOK_KEYWORD_INT) {
+            newVariable.dataType = TOK_TYPE_INT;
+        } else {
+            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised type", token);
+        }
+        newVariable.stackOffset = (stackOffset += ARCH_SIZE_DATATYPE_INT);
+
+        token = tokenise_request(text);
+        INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_IDENTIFIER);
+        if(INTERNAL_MACRO_IS_IN_MAP(token.tokenString, mapToAppend) != false || INTERNAL_MACRO_IS_IN_MAP(token.tokenString, mapWithClash) != false) {
+            INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Duplicate variable", token);
+        }
+
+        mapToAppend[token.tokenString] = newVariable;
+        token = tokenise_request(text);
+        if(token.tokenID == TOK_BRACE_CLOSE_SQUARE) {
+            break;
+        } else if(token.tokenID == TOK_SYMBOL_COMMA) {
+            INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_SYMBOL_COMMA);
+            continue;
+        } else {
+            INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_CLOSE_SQUARE);
+        }
+    }
+
+    return true;
+}
+
+
+
+
+
 
 /* bool internal_parse_if(string &text)
  * @brief :: Parse an if statement
@@ -107,6 +180,9 @@ bool internal_parse_goto(string &text) {
     return true;
 }
 
+
+
+
 /* bool internal_parse_function_declaration(string &text)
  * @brief :: Parse a function declaration
  *
@@ -116,10 +192,41 @@ bool internal_parse_goto(string &text) {
  */
 bool internal_parse_function_declaration(string &text) {
 
-    
+    FunctionMetadata newFunction;
+    Token functionNameToken = tokenise_request(text);
+    if(INTERNAL_MACRO_IS_IN_MAP(functionNameToken.tokenString, knownFunctions) == true) { //Check for function redefinition
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Duplicate function", functionNameToken);
+        return false;
+    }
+    if(functionNameToken.tokenString == PARSE_ENTRYPOINT) { //Main function
+        mainIsDeclared = true;
+    }
 
+    internal_declare_variables(text, newFunction.functionArguments, newFunction.localVariables);
+    internal_declare_variables(text, newFunction.localVariables, newFunction.functionArguments);
+
+    Token token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_SYMBOL_RETURN_TYPE);
+
+    token = tokenise_request(text);
+    if(INTERNAL_MACRO_IS_IN_MAP(token.tokenString, newFunction.localVariables) == false) {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised retuen", token);
+    }
+
+    token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_OPEN_CURLEY);
+
+    token = tokenise_request(text);
+    internal_helper_call_parser_function(token);
+
+    token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_CLOSE_CURLEY);
+    knownFunctions[functionNameToken.tokenString] = newFunction;
     return true;
 }
+
+
+
 
 /* bool internal_parse_call(string &text)
  * @brief :: Parse an call statement
@@ -145,6 +252,10 @@ bool internal_parse_call(string &text) {
 bool internal_parse_assignment(string &text) {
     //call foo(args) -> x
     
+
+
+
+
 
     return true;
 }

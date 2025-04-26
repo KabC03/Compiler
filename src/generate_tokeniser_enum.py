@@ -30,6 +30,7 @@ tokens = {
     "call" : "TOK_KEYWORD_CALL",
     "fn" : "TOK_KEYWORD_FN",
     "return" : "TOK_KEYWORD_RETURN",
+    "->" : "TOK_SYMBOL_RETURN_TYPE",
 
     # Symbols
 
