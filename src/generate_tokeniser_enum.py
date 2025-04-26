@@ -21,6 +21,7 @@ tokens = {
     "=" : "TOK_SYMBOL_ASSIGNMENT",
 
         #Control flow
+    "set" : "TOK_KEYWORD_SET",
     "while" : "TOK_KEYWORD_WHILE", 
     "if" : "TOK_KEYWORD_IF", 
     "goto" : "TOK_KEYWORD_GOTO",

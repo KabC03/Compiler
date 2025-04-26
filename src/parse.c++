@@ -70,13 +70,10 @@ bool internal_helper_call_parser_function(string &text, Token &token, FunctionMe
         } case TOK_KEYWORD_IF: {
             return internal_parse_if(text, functionMetadata);
             break;
-        } case TOK_KEYWORD_INT: {
-            return internal_parse_assignment(text, functionMetadata);
-            break;
         } case TOK_KEYWORD_LABEL: {
             return internal_parse_label_declaration(text, functionMetadata);
             break;
-        } case TOK_KEYWORD_RETURN: {
+        } case TOK_KEYWORD_SET: {
             return internal_parse_assignment(text, functionMetadata);
             break;
         } case TOK_KEYWORD_WHILE: {
@@ -141,7 +138,6 @@ bool internal_declare_variables(string &text, unordered_map<string, VariableMeta
  */
 bool internal_parse_if(string &text, FunctionMetadata &functionMetadata) {
     //if(a == b) {...}
-    
 
     return true;
 }
@@ -278,7 +274,7 @@ bool internal_parse_call(string &text, FunctionMetadata &functionMetadata) {
  * @return :: bool :: Indication of success/failure in parsing
  */
 bool internal_parse_assignment(string &text, FunctionMetadata &functionMetadata) {
-    //call foo(args) -> x
+    //set x = 5;
     
 
 
