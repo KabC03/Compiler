@@ -33,7 +33,7 @@ typedef enum TOKEN_ENUM : int {
 	TOK_SYMBOL_GRE = 19,         //19 ::  >
 	TOK_SYMBOL_LES = 20,         //20 ::  <
 	TOK_SYMBOL_COMMA = 21,       //21 ::  ,
-	TOK_SEMICOLON = 22,          //22 ::  ;
+	TOK_SYMBOL_SEMICOLON = 22,   //22 ::  ;
 	TOK_SYMBOL_REFERENCE = 23,   //23 ::  $
 	TOK_SYMBOL_DEREFERENCE = 24, //24 ::  @
 	TOK_BRACE_OPEN_PAREN = 25,   //25 ::  (

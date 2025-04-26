@@ -24,7 +24,7 @@ const string tokens[] = {
 	">",      //19 :: TOK_SYMBOL_GRE
 	"<",      //20 :: TOK_SYMBOL_LES
 	",",      //21 :: TOK_SYMBOL_COMMA
-	";",      //22 :: TOK_SEMICOLON
+	";",      //22 :: TOK_SYMBOL_SEMICOLON
 	"$",      //23 :: TOK_SYMBOL_REFERENCE
 	"@",      //24 :: TOK_SYMBOL_DEREFERENCE
 	"(",      //25 :: TOK_BRACE_OPEN_PAREN

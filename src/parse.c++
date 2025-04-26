@@ -2,7 +2,15 @@
 
 unordered_map<string, FunctionMetadata> knownFunctions;
 bool mainIsDeclared = false;
-
+bool internal_parse_call(string &text, FunctionMetadata &functionMetadata);
+bool internal_parse_goto(string &text, FunctionMetadata &functionMetadata);
+bool internal_parse_if(string &text, FunctionMetadata &functionMetadata);
+bool internal_parse_assignment(string &text, FunctionMetadata &functionMetadata);
+bool internal_parse_label_declaration(string &text, FunctionMetadata &functionMetadata);
+bool internal_parse_while(string &text, FunctionMetadata &functionMetadata);
+bool internal_parse_function_declaration(string &text);
+bool internal_declare_variables(string &text, unordered_map<string, VariableMetadata> mapToAppend, unordered_map<string, VariableMetadata> mapWithClash);
+bool internal_helper_call_parser_function(string &text, Token &token, FunctionMetadata &functionMetadata);
 
 
 
@@ -51,28 +59,28 @@ bool mainIsDeclared = false;
 
 
 //Call the relevent parser function from a token
-bool internal_helper_call_parser_function(string &text, Token &token) {
+bool internal_helper_call_parser_function(string &text, Token &token, FunctionMetadata &functionMetadata) {
     switch(token.tokenID) {
         case TOK_KEYWORD_CALL: {
-            return internal_parse_call(text);
+            return internal_parse_call(text, functionMetadata);
             break;
         } case TOK_KEYWORD_GOTO: {
-            return internal_parse_goto(text);
+            return internal_parse_goto(text, functionMetadata);
             break;
         } case TOK_KEYWORD_IF: {
-            return internal_parse_if(text);
+            return internal_parse_if(text, functionMetadata);
             break;
         } case TOK_KEYWORD_INT: {
-            return internal_parse_assignment(text);
+            return internal_parse_assignment(text, functionMetadata);
             break;
         } case TOK_KEYWORD_LABEL: {
-            return internal_parse_label_declaration(text);
+            return internal_parse_label_declaration(text, functionMetadata);
             break;
         } case TOK_KEYWORD_RETURN: {
-            return internal_parse_assignment(text);
+            return internal_parse_assignment(text, functionMetadata);
             break;
         } case TOK_KEYWORD_WHILE: {
-            return internal_parse_while(text);
+            return internal_parse_while(text, functionMetadata);
             break;
         } default: {
             INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", token);
@@ -82,10 +90,6 @@ bool internal_helper_call_parser_function(string &text, Token &token) {
     }
     return true;
 }
-
-
-
-
 
 //Declare a variable
 bool internal_declare_variables(string &text, unordered_map<string, VariableMetadata> mapToAppend, unordered_map<string, VariableMetadata> mapWithClash) {
@@ -127,18 +131,15 @@ bool internal_declare_variables(string &text, unordered_map<string, VariableMeta
 }
 
 
-
-
-
-
 /* bool internal_parse_if(string &text)
  * @brief :: Parse an if statement
  *
  * @param :: string &text :: Source code text
+ * @param :: FunctionMetadata &functionMetadata :: Function metadata
  *
  * @return :: bool :: Indication of success/failure in parsing
  */
-bool internal_parse_if(string &text) {
+bool internal_parse_if(string &text, FunctionMetadata &functionMetadata) {
     //if(a == b) {...}
     
 
@@ -149,10 +150,11 @@ bool internal_parse_if(string &text) {
  * @brief :: Parse a while loop
  *
  * @param :: string &text :: Source code text
+ * @param :: FunctionMetadata &functionMetadata :: Function metadata
  *
  * @return :: bool :: Indication of success/failure in parsing
  */
-bool internal_parse_while(string &text) {
+bool internal_parse_while(string &text, FunctionMetadata &functionMetadata) {
     //while(a == b) {...}
     
 
@@ -163,12 +165,22 @@ bool internal_parse_while(string &text) {
  * @brief :: Parse a label declaration
  *
  * @param :: string &text :: Source code text
+ * @param :: FunctionMetadata &functionMetadata :: Function metadata
  *
  * @return :: bool :: Indication of success/failure in parsing
  */
-bool internal_parse_label_declaration(string &text) {
+bool internal_parse_label_declaration(string &text, FunctionMetadata &functionMetadata) {
     //label x;
-    
+    Token token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_IDENTIFIER);
+    if(INTERNAL_MACRO_IS_IN_MAP(token.tokenString, functionMetadata.labels) == true) {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Duplicate label", token);
+        return false;
+    }
+    functionMetadata.labels.insert(token.tokenString);
+
+    token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_SYMBOL_SEMICOLON);
 
     return true;
 }
@@ -177,18 +189,25 @@ bool internal_parse_label_declaration(string &text) {
  * @brief :: Parse a goto statement
  *
  * @param :: string &text :: Source code text
+ * @param :: FunctionMetadata &functionMetadata :: Function metadata
  *
  * @return :: bool :: Indication of success/failure in parsing
  */
-bool internal_parse_goto(string &text) {
+bool internal_parse_goto(string &text, FunctionMetadata &functionMetadata) {
     //goto x;
-    
+    Token token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_IDENTIFIER);
+    if(INTERNAL_MACRO_IS_IN_MAP(token.tokenString, functionMetadata.labels) == false) {
+        INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised label", token);
+        return false;
+    }
+    ARCH_GOTO(token.tokenString);
+
+    token = tokenise_request(text);
+    INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_SYMBOL_SEMICOLON);
 
     return true;
 }
-
-
-
 
 /* bool internal_parse_function_declaration(string &text)
  * @brief :: Parse a function declaration
@@ -224,7 +243,7 @@ bool internal_parse_function_declaration(string &text) {
     INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_OPEN_CURLEY);
 
     token = tokenise_request(text);
-    internal_helper_call_parser_function(text, token);
+    internal_helper_call_parser_function(text, token, newFunction);
 
     token = tokenise_request(text);
     INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_CLOSE_CURLEY);
@@ -239,10 +258,11 @@ bool internal_parse_function_declaration(string &text) {
  * @brief :: Parse an call statement
  *
  * @param :: string &text :: Source code text
+ * @param :: FunctionMetadata &functionMetadata :: Function metadata
  *
  * @return :: bool :: Indication of success/failure in parsing
  */
-bool internal_parse_call(string &text) {
+bool internal_parse_call(string &text, FunctionMetadata &functionMetadata) {
     //call foo(args) -> x
     
 
@@ -253,10 +273,11 @@ bool internal_parse_call(string &text) {
  * @brief :: Parse an assignment
  *
  * @param :: string &text :: Source code text
+ * @param :: FunctionMetadata &functionMetadata :: Function metadata
  *
  * @return :: bool :: Indication of success/failure in parsing
  */
-bool internal_parse_assignment(string &text) {
+bool internal_parse_assignment(string &text, FunctionMetadata &functionMetadata) {
     //call foo(args) -> x
     
 

@@ -47,7 +47,7 @@ tokens = {
     "<" : "TOK_SYMBOL_LES",
 
     "," : "TOK_SYMBOL_COMMA",
-    ";" : "TOK_SEMICOLON",
+    ";" : "TOK_SYMBOL_SEMICOLON",
 
         #Pointers
     "$" : "TOK_SYMBOL_REFERENCE",
