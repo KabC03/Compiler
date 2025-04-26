@@ -51,21 +51,28 @@ bool mainIsDeclared = false;
 
 
 //Call the relevent parser function from a token
-bool internal_helper_call_parser_function(Token &token) {
+bool internal_helper_call_parser_function(string &text, Token &token) {
     switch(token.tokenID) {
         case TOK_KEYWORD_CALL: {
+            return internal_parse_call(text);
             break;
         } case TOK_KEYWORD_GOTO: {
+            return internal_parse_goto(text);
             break;
         } case TOK_KEYWORD_IF: {
+            return internal_parse_if(text);
             break;
         } case TOK_KEYWORD_INT: {
+            return internal_parse_assignment(text);
             break;
         } case TOK_KEYWORD_LABEL: {
+            return internal_parse_label_declaration(text);
             break;
         } case TOK_KEYWORD_RETURN: {
+            return internal_parse_assignment(text);
             break;
         } case TOK_KEYWORD_WHILE: {
+            return internal_parse_while(text);
             break;
         } default: {
             INTERNAL_MACRO_PRINT_UNEXPECTED_TOKEN_ERROR("Unrecognised instruction", token);
@@ -217,7 +224,7 @@ bool internal_parse_function_declaration(string &text) {
     INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_OPEN_CURLEY);
 
     token = tokenise_request(text);
-    internal_helper_call_parser_function(token);
+    internal_helper_call_parser_function(text, token);
 
     token = tokenise_request(text);
     INTERNAL_MACRO_ASSERT_TOKEN(token, TOK_BRACE_CLOSE_CURLEY);
