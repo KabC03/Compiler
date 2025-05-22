@@ -1,49 +1,38 @@
-#ifndef TOKENISE_H
-#define TOKENISE_H 
-#include <iostream>
+#ifndef TOKENISE_HPP
+#define TOKENISE_HPP
+
 #include <vector>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <string>
-#include "compiler_structures.h++"
-
-
+#include <cctype>
+#include <iostream>
 using namespace std;
 
-//Tokens delimeterd via:
-//Symbol next to non-symbol
-//Alphanumeric next to space or symbol
-//String literals enclosed via ""
-//Brackets, comma
+typedef struct Token {
 
-typedef enum TOKENISER_STATE {
+	TOKEN_TYPE type;	
+	string str;
 
-    STATE_START,
+} Token;
 
-    STATE_STRING, //Variable name or keyword
-    STATE_INT_IMM,
-    STATE_FLOAT_IMM,
-    STATE_CHAR_IMM,
-    STATE_STRING_IMM,
-    STATE_SYMBOL,
-    STATE_COMMENT,
 
-} TOKENISER_STATE;
+
+void tokenise_print_tokens(vector<Token> programTokens);
+unordered_map<string, int> tokenise_generate_token_map(void);
+vector<Token> tokenise_tokenise(string &tokenStream, unordered_map<string, int> tokenMap);
 
 
 
 
-void tokenise_print(Token &token);
-void tokenise_init(void);
-Token tokenise_request(string &line);
 
 
 
-#endif 
 
 
 
-      
-      
-      
-      
+
+
+
+#endif
+
