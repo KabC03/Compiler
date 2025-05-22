@@ -7,7 +7,7 @@ specifiers = [
 	"TOK_INV", "TOK_IMM", "TOK_IDEN",
 ];
 tokens = [
-	"FN", "CALL", "IF", "ELIF", "ELSE", "WHILE", "DECL", "=", "+", "-", "*", "/", "(", ")", "{", "}", "[", "]", "==", ">=",
+	"FN", "RETURN", "CALL", "IF", "ELIF", "ELSE", "WHILE", "DECL", ",", ";", "@", "#", "=", "+", "-", "*", "/", "(", ")", "{", "}", "[", "]", "==", ">=",
 ];
 
 

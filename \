@@ -1,0 +1,23 @@
+
+
+
+fn [4] foo(DECL[4] x, DECL[2] y)
+	[DECL [4] z, DECL[4] w] {
+
+	DECL[4] result = 1;
+
+	IF(Z == W) {
+		result = 2;
+
+	}
+
+
+	RETURN result;
+}
+
+
+
+
+
+
+
