@@ -45,6 +45,9 @@ reservedTokens = {
 
 
 def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> int:
+    longestKeyLength = len(max(reservedTokens.keys(), key = len));
+
+
     try:
         with open(str(cFileName), 'w') as cFile:
             cFile.write(f"#include \"{hFileName}\"\n");
@@ -52,7 +55,7 @@ def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> i
             cFile.write(f"#include <vector>\n\n");
             cFile.write(f"extern std::vector<std::string> = {{\n")
             for key, value in reservedTokens.items():
-                cFile.write(f"\t\"{key}\", //{value}\n");
+                cFile.write(f"\t\"{key}\", {" " * (longestKeyLength - len(value))}//{value}\n");
             cFile.write(f"}};\n\n")
             return 0;
 
