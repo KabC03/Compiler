@@ -5,9 +5,9 @@ import os;
 internalTokens = {
     "TOKEN_INVALID" : "TOKEN_INVALID",
 }
-specifierTokens = {
-    "SPECIFIER_IMMEDIATE" : "SPECIFIER_IMMEDIATE",
-    "SPECIFIER_IDENTIFIER" : "SPECIFIER_IDENTIFIER",
+nonReservedTokens = {
+    "OPPERAND_IMMEDIATE" : "OPPERAND_IMMEDIATE",
+    "IDENTIFIER" : "IDENTIFIER",
 };
 reservedTokens = {
 
@@ -66,7 +66,7 @@ def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> i
 
 
 def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
-    longestValueLength = len(max(list(internalTokens.values()) + list(specifierTokens.values()) + list(reservedTokens.values()), key = len));
+    longestValueLength = len(max(list(internalTokens.values()) + list(nonReservedTokens.values()) + list(reservedTokens.values()), key = len));
 
     try:
         with open(str(hFileName), 'w') as hFile:
@@ -84,8 +84,8 @@ def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
                 hFile.write(f"\t{value} = {index},{" " * (longestValueLength - len(value) + 3)}//'{key}'\n")
                 index -= 1;
             
-            hFile.write("\n\t//Specifier tokens\n");
-            for key, value in specifierTokens.items():
+            hFile.write("\n\t//Non-reserved tokens\n");
+            for key, value in nonReservedTokens.items():
                 hFile.write(f"\t{value} = {index},{" " * (longestValueLength - len(value) + 3)}//'{key}'\n")
                 index -= 1;
 

@@ -10,9 +10,9 @@ typedef enum TOKENS : long long int {
 	//Internal tokens
 	TOKEN_INVALID = -1,                  //'TOKEN_INVALID'
 
-	//Specifier tokens
-	SPECIFIER_IMMEDIATE = -2,            //'SPECIFIER_IMMEDIATE'
-	SPECIFIER_IDENTIFIER = -3,           //'SPECIFIER_IDENTIFIER'
+	//Non-reserved tokens
+	OPPERAND_IMMEDIATE = -2,             //'OPPERAND_IMMEDIATE'
+	IDENTIFIER = -3,                     //'IDENTIFIER'
 
 	//Reserved tokens
 	KEYWORD_FN = 0,                     //'fn'
