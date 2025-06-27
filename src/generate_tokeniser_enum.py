@@ -47,7 +47,6 @@ reservedTokens = {
 def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> int:
     longestKeyLength = len(max(reservedTokens.keys(), key = len));
 
-
     try:
         with open(str(cFileName), 'w') as cFile:
             cFile.write(f"#include \"{hFileName}\"\n");
@@ -55,7 +54,8 @@ def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> i
             cFile.write(f"#include <vector>\n\n");
             cFile.write(f"extern std::vector<std::string> = {{\n")
             for key, value in reservedTokens.items():
-                cFile.write(f"\t\"{key}\", {" " * (longestKeyLength - len(value))}//{value}\n");
+
+                cFile.write(f"\t\"{key}\", {" " * (longestKeyLength - len(key) + 3)}//{value}\n");
             cFile.write(f"}};\n\n")
             return 0;
 
@@ -66,6 +66,8 @@ def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> i
 
 
 def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
+    longestValueLength = len(max(list(internalTokens.values()) + list(specifierTokens.values()) + list(reservedTokens.values()), key = len));
+
     try:
         with open(str(hFileName), 'w') as hFile:
             hFile.write(f"#ifndef TOKENS_HPP\n");
@@ -76,18 +78,18 @@ def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
             hFile.write("\n\t//Internal tokens\n");
             for key, value in internalTokens.items():
 
-                hFile.write(f"\t{value} = {index}, //'{key}'\n")
+                hFile.write(f"\t{value} = {index},{" " * (longestValueLength - len(value) + 3)}//'{key}'\n")
                 index -= 1;
             
             hFile.write("\n\t//Specifier tokens\n");
             for key, value in specifierTokens.items():
-                hFile.write(f"\t{value} = {index}, //'{key}'\n")
+                hFile.write(f"\t{value} = {index},{" " * (longestValueLength - len(value) + 3)}//'{key}'\n")
                 index -= 1;
 
             hFile.write("\n\t//Reserved tokens\n");
             index = 0;
             for key, value in reservedTokens.items():
-                hFile.write(f"\t{value} = {index}, //'{key}'\n")
+                hFile.write(f"\t{value} = {index},{" " * (longestValueLength - len(value) + 3)}//'{key}'\n")
                 index += 1;
             
             hFile.write("\n\n} TOKENS;\n");
