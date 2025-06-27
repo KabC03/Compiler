@@ -54,7 +54,9 @@ def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> i
             for key, value in reservedTokens.items():
 
                 cFile.write(f"\t\"{key}\", {" " * (longestKeyLength - len(key) + 3)}//{value}\n");
-            cFile.write(f"}};\n\n")
+            cFile.write(f"}};\n\n");
+            if verboseOutput == True:
+                print("Generated C++ file\n");
             return 0;
 
     except OSError as e:
@@ -92,6 +94,8 @@ def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
             
             hFile.write("\n\n} TOKENS;\n");
             hFile.write("\n#endif\n\n");
+            if verboseOutput == True:
+                print("Generated H++ file\n");
             return 0;
 
     except OSError as e:
