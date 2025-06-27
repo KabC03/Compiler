@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> global_reservedTokens;
-typedef enum TOKENS : int {
+extern std::vector<std::string> global_reservedTokens;
+typedef enum TOKENS : long long int {
 
 	//Internal tokens
-	TOK_INVALID = -1,                    //'TOKEN_INVALID'
+	TOKEN_INVALID = -1,                  //'TOKEN_INVALID'
 
 	//Specifier tokens
 	SPECIFIER_IMMEDIATE = -2,            //'SPECIFIER_IMMEDIATE'

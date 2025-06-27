@@ -20,8 +20,8 @@ typedef struct Token {
 
 
 void tokenise_print_tokens(vector<Token> programTokens);
-unordered_map<string, int> tokenise_generate_token_map(void);
-vector<Token> tokenise_tokenise(string &tokenStream, unordered_map<string, int> tokenMap);
+unordered_map<string, TOKENS> tokenise_generate_token_map(void);
+vector<Token> tokenise_tokenise(string &tokenStream, unordered_map<string, TOKENS> tokenMap);
 
 
 

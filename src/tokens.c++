@@ -1,6 +1,6 @@
-#include "./src/tokens.h++"
+#include "tokens.h++"
 
-extern std::vector<std::string> global_reservedTokens = {
+std::vector<std::string> global_reservedTokens = {
 	"fn",        //KEYWORD_FN
 	"call",      //KEYWORD_CALL
 	"return",    //KEYWORD_RETURN

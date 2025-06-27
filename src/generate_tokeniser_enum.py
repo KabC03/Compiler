@@ -3,7 +3,7 @@ import os;
 
 
 internalTokens = {
-    "TOKEN_INVALID" : "TOK_INVALID",
+    "TOKEN_INVALID" : "TOKEN_INVALID",
 }
 specifierTokens = {
     "SPECIFIER_IMMEDIATE" : "SPECIFIER_IMMEDIATE",
@@ -45,10 +45,12 @@ reservedTokens = {
 def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> int:
     longestKeyLength = len(max(reservedTokens.keys(), key = len));
 
+
     try:
+        relativePath = os.path.relpath(hFileName, start = os.path.dirname(cFileName));
         with open(str(cFileName), 'w') as cFile:
-            cFile.write(f"#include \"{hFileName}\"\n\n");
-            cFile.write(f"extern std::vector<std::string> global_reservedTokens = {{\n")
+            cFile.write(f"#include \"{relativePath}\"\n\n");
+            cFile.write(f"std::vector<std::string> global_reservedTokens = {{\n")
             for key, value in reservedTokens.items():
 
                 cFile.write(f"\t\"{key}\", {" " * (longestKeyLength - len(key) + 3)}//{value}\n");
@@ -72,8 +74,8 @@ def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
             hFile.write(f"#define TOKENS_HPP\n\n");
             hFile.write(f"#include <string>\n");
             hFile.write(f"#include <vector>\n\n");
-            hFile.write(f"std::vector<std::string> global_reservedTokens;\n")
-            hFile.write("typedef enum TOKENS : int {\n");
+            hFile.write(f"extern std::vector<std::string> global_reservedTokens;\n")
+            hFile.write("typedef enum TOKENS : long long int {\n");
 
             index = -1;
             hFile.write("\n\t//Internal tokens\n");
