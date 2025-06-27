@@ -1,8 +1,6 @@
 import sys;
 import os;
 
-fileName = "./src/tokens";
-
 
 internalTokens = {
     "TOKEN_INVALID" : "TOK_INVALID",
