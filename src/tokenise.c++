@@ -6,7 +6,7 @@
 void tokenise_print_tokens(vector<Token> programTokens) {
 
 	for(int i = 0; i < programTokens.size(); i++) {
-		cout << "Token: " << tokens[programTokens[i].type] << " || String: " << programTokens[i].str << endl;
+		cout << "Token: " << global_reservedTokens[programTokens[i].type] << " || String: " << programTokens[i].str << endl;
 	}
 
 	return;
@@ -16,8 +16,8 @@ void tokenise_print_tokens(vector<Token> programTokens) {
 unordered_map<string, int> tokenise_generate_token_map(void) {
 	unordered_map<string, int> tokenMap;
 
-	for(int i = 0; i < tokens.size(); i++) {
-		tokenMap[tokens[i]] = i;
+	for(int i = 0; i < global_reservedTokens.size(); i++) {
+		tokenMap[global_reservedTokens[i]] = i;
 	}
 
 	return tokenMap;

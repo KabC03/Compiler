@@ -47,10 +47,8 @@ def write_to_c_file(cFileName : str, hFileName : str, verboseOutput : bool) -> i
 
     try:
         with open(str(cFileName), 'w') as cFile:
-            cFile.write(f"#include \"{hFileName}\"\n");
-            cFile.write(f"#include <string>\n");
-            cFile.write(f"#include <vector>\n\n");
-            cFile.write(f"extern std::vector<std::string> = {{\n")
+            cFile.write(f"#include \"{hFileName}\"\n\n");
+            cFile.write(f"extern std::vector<std::string> global_reservedTokens = {{\n")
             for key, value in reservedTokens.items():
 
                 cFile.write(f"\t\"{key}\", {" " * (longestKeyLength - len(key) + 3)}//{value}\n");
@@ -72,6 +70,9 @@ def write_to_h_file(hFileName : str, verboseOutput : bool) -> int:
         with open(str(hFileName), 'w') as hFile:
             hFile.write(f"#ifndef TOKENS_HPP\n");
             hFile.write(f"#define TOKENS_HPP\n\n");
+            hFile.write(f"#include <string>\n");
+            hFile.write(f"#include <vector>\n\n");
+            hFile.write(f"std::vector<std::string> global_reservedTokens;\n")
             hFile.write("typedef enum TOKENS : int {\n");
 
             index = -1;

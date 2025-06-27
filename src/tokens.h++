@@ -1,6 +1,10 @@
 #ifndef TOKENS_HPP
 #define TOKENS_HPP
 
+#include <string>
+#include <vector>
+
+std::vector<std::string> global_reservedTokens;
 typedef enum TOKENS : int {
 
 	//Internal tokens
