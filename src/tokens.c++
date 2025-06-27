@@ -1,24 +1,31 @@
-#include "tokens.h++"
+#include "./src/tokens.h++"
+#include <string>
+#include <vector>
 
-const vector<string>tokens = {
-	"FN", //0 :: TOK_FN
-	"CALL", //1 :: TOK_CALL
-	"IF", //2 :: TOK_IF
-	"ELIF", //3 :: TOK_ELIF
-	"ELSE", //4 :: TOK_ELSE
-	"WHILE", //5 :: TOK_WHILE
-	"DECL", //6 :: TOK_DECL
-	"=", //7 :: TOK_=
-	"+", //8 :: TOK_+
-	"-", //9 :: TOK_-
-	"*", //10 :: TOK_*
-	"/", //11 :: TOK_/
-	"(", //12 :: TOK_(
-	")", //13 :: TOK_)
-	"{", //14 :: TOK_{
-	"}", //15 :: TOK_}
-	"[", //16 :: TOK_[
-	"]", //17 :: TOK_]
-	"==", //18 :: TOK_==
-	">=", //19 :: TOK_>=
+extern std::vector<std::string> = {
+	"fn", //KEYWORD_FN
+	"call", //KEYWORD_CALL
+	"return", //KEYWORD_RETURN
+	"if", //KEYWORD_IF
+	"elif", //KEYWORD_ELIF
+	"while", //KEYWORD_WHILE
+	"decl", //KEYWORD_DECL
+	",", //DELIMITER_COMMA
+	";", //DEMIMITER_SEMICOLON
+	"(", //DELIMETER_OPEN_BRACE
+	")", //DELIMETER_CLOSE_BRACE
+	"{", //DELIMETER_OPEN_CURLEY_BRACE
+	"}", //DELIMETER_CLOSE_CURLEY_BRACE
+	"[", //DELIMETER_OPEN_SQUARE_BRACE
+	"]", //DELIMETER_CLOSE_SQUARE_BRACE
+	"@", //OPERATOR_INDIRECTION
+	"#", //OPERATOR_ADDRESS_OF
+	"=", //OPERATOR_ASSIGNMENT
+	"+", //OPERATOR_PLUS
+	"-", //OPERATOR_SUBTRACT
+	"*", //OPERATOR_MULTIPLY
+	"/", //OPERATOR_DIVIDE
+	"==", //OPERATOR_EQUAL_TO
+	">=", //OPERATOR_GREATER_EQUAL_TO
 };
+

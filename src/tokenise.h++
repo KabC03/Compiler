@@ -7,11 +7,12 @@
 #include <unordered_set>
 #include <cctype>
 #include <iostream>
+#include "tokens.h++"
 using namespace std;
 
 typedef struct Token {
 
-	TOKEN_TYPE type;	
+	TOKENS type;	
 	string str;
 
 } Token;

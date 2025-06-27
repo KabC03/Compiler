@@ -2,9 +2,14 @@ clear
 
 
 mkdir ./output
-python3 ./src/generate_tokeniser_enum.py
-clang++ ./src/*.c++ -fsanitize=address -Wall -Werror -std=c++11 -O0 -o ./output/out
+python3 ./src/generate_tokeniser_enum.py ./src/tokens.c++ ./src/tokens.h++
 
+if [[ $? -ne 0 ]]; then
+    printf "\n\n[SHELL] Token generation failed\n\n"
+    exit -1
+fi
+
+clang++ ./src/*.c++ -fsanitize=address -Wall -Werror -std=c++11 -O0 -o ./output/out
 if [[ $? -ne 0 ]]; then
 
     printf "\n\n[SHELL] Compilation failed\n\n"
