@@ -1,8 +1,8 @@
 clear
 
 
-mkdir ./output
-python3 ./src/generate_tokeniser_enum.py ./src/tokens.c++ ./src/tokens.h++
+mkdir -p ./output
+python3 ./src/generate_tokeniser_enum.py ./src/tokens.c++ ./src/tokens.h++ -v
 
 if [[ $? -ne 0 ]]; then
     printf "\n\n[SHELL] Token generation failed\n\n"
